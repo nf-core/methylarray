@@ -1,0 +1,12 @@
+[Header],,,,,,
+Investigator Name,test,,,,,
+Project Name,DNA_Methylation,,,,,
+Experiment Name,test,,,,,
+Date,null,,,,,
+,,,,,,
+[Data],,,,,,
+Sample_Name,Sample_Well,Sample_Plate,Sample_Group,Pool_ID,Sentrix_ID,Sentrix_Position,person,age,sex,status
+GSM1075838,,,,,GSM1075838_6929689021,R01C01,SAMPLE_1,,,GSM1075840
+GSM1075839,,,,,GSM1075839_6929689021,R02C01,SAMPLE_2,,,GSM1075840
+GSM1075840,,,,,GSM1075840_6929689021,R03C01,SAMPLE_3,,,GSM1075840
+GSM1075841,,,,,GSM1075841_6929689021,R04C01,SAMPLE_4,,,GSM1075840

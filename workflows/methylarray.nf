@@ -4,7 +4,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { FASTQC                 } from '../modules/nf-core/fastqc/main'
+include { PREPROCESS             } from '../modules/local/preprocess/main'
+include { XREACTIVE_PROBES_FIND_REMOVE } from '../modules/local/xreactive_probes_find_remove/main'
+include { REMOVE_SNP_PROBES      } from '../modules/local/remove_snp_probes/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -26,15 +28,31 @@ workflow METHYLARRAY {
 
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
+    ch_preprocessed_files = Channel.empty()
 
     //
-    // MODULE: Run FastQC
+    // MODULE: Run PREPROCESS
     //
-    FASTQC (
+    PREPROCESS (
         ch_samplesheet
     )
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
-    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+    ch_preprocessed_files = ch_preprocessed_files.mix(PREPROCESS.out.rdata)
+
+    //
+    // MODULE: Run XREACTIVE_PROBES_FIND_REMOVE
+    //
+    XREACTIVE_PROBES_FIND_REMOVE (
+        PREPROCESS.out.rdata
+    )
+    ch_preprocessed_files = ch_preprocessed_files.mix(XREACTIVE_PROBES_FIND_REMOVE.out.rdata)
+
+    //
+    // MODULE: Run REMOVE_SNP_PROBES
+    //
+    REMOVE_SNP_PROBES (
+        XREACTIVE_PROBES_FIND_REMOVE.out.rdata
+    )
+    ch_preprocessed_files = ch_preprocessed_files.mix(REMOVE_SNP_PROBES.out.rdata)
 
     //
     // Collate and save software versions

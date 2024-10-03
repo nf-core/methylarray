@@ -7,27 +7,17 @@
     "items": {
         "type": "object",
         "properties": {
-            "sample": {
+            "idat_folder": {
                 "type": "string",
-                "pattern": "^\\S+$",
-                "errorMessage": "Sample name must be provided and cannot contain spaces",
-                "meta": ["id"]
+                "pattern": "^.+$",
+                "errorMessage": "IDAT folder path must be provided"
             },
-            "fastq_1": {
+            "illumina_sample_sheet": {
                 "type": "string",
-                "format": "file-path",
-                "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
-            },
-            "fastq_2": {
-                "type": "string",
-                "format": "file-path",
-                "exists": true,
-                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+                "pattern": "^.+\\.csv$",
+                "errorMessage": "Illumina sample sheet must be a valid CSV file name"
             }
         },
-        "required": ["sample", "fastq_1"]
+        "required": ["idat_folder", "illumina_sample_sheet"]
     }
 }

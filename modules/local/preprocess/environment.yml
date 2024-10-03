@@ -1,0 +1,7 @@
+name: preprocess
+channels:
+- conda-forge
+- bioconda
+dependencies:
+- bioconda::bioconductor-illuminahumanmethylationepicmanifest=0.3.0
+- bioconda::bioconductor-minfi=1.48.0

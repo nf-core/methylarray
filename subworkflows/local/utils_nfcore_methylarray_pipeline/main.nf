@@ -81,22 +81,13 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
     Channel
-        .fromSamplesheet("input")
+        .fromPath(input)
+        .splitCsv(header: true)
         .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
-        }
-        .groupTuple()
-        .map {
-            validateInputSamplesheet(it)
-        }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
+            row ->
+                def idat_folder = row.idat_folder
+                def illumina_sample_sheet = row.illumina_sample_sheet
+                return [idat_folder, illumina_sample_sheet]
         }
         .set { ch_samplesheet }
 
