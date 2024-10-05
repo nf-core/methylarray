@@ -10,6 +10,7 @@ process PREPROCESS {
     output:
     tuple val(samplesheet_name), path("*.csv")  , emit: csv
     tuple val(samplesheet_name), path("mSetSqFlt.RData"), emit: rdata
+    tuple val(samplesheet_name), path("rgSet.RData"), emit: rdata_rgSet
 
     when:
     task.ext.when == null || task.ext.when

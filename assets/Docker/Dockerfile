@@ -39,5 +39,7 @@ RUN R -e "BiocManager::install(c('BSgenome.Hsapiens.UCSC.hg19.masked', 'BSgenome
 RUN git clone https://github.com/pjhop/DNAmCrosshyb.git /DNAmCrosshyb
 RUN R CMD INSTALL /DNAmCrosshyb
 
+RUN R -e "BiocManager::install(c('IlluminaHumanMethylationEPICanno.ilm10b2.hg19', 'FlowSorted.Blood.EPIC'))"
+RUN R -e "BiocManager::install(c('FlowSorted.Blood.450k'))"
 
 

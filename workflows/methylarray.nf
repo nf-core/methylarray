@@ -7,6 +7,7 @@
 include { PREPROCESS             } from '../modules/local/preprocess/main'
 include { XREACTIVE_PROBES_FIND_REMOVE } from '../modules/local/xreactive_probes_find_remove/main'
 include { REMOVE_SNP_PROBES      } from '../modules/local/remove_snp_probes/main'
+include { REMOVE_SEX_CHROMOSOMES      } from '../modules/local/remove_sex_chromosomes/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -56,6 +57,14 @@ workflow METHYLARRAY {
         XREACTIVE_PROBES_FIND_REMOVE.out.rdata
     )
     ch_preprocessed_files = ch_preprocessed_files.mix(REMOVE_SNP_PROBES.out.rdata)
+
+    //
+    // MODULE: Run REMOVE_SNP_PROBES
+    //
+    REMOVE_SEX_CHROMOSOMES (
+        REMOVE_SNP_PROBES.out.rdata,
+        PREPROCESS.out.rdata_rgSet
+    )
 
     //
     // Collate and save software versions
