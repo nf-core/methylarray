@@ -41,8 +41,11 @@ workflow METHYLARRAY {
     //
     // MODULE: Run XREACTIVE_PROBES_FIND_REMOVE
     //
+    // Download from: https://github.com/pjhop/DNAmCrosshyb at https://doi.org/10.5281/zenodo.4088019
+    genome_path = Channel.fromPath("${projectDir}/results/genome_bs/hg19")
     XREACTIVE_PROBES_FIND_REMOVE (
-        PREPROCESS.out.rdata
+        PREPROCESS.out.rdata,
+        genome_path
     )
     ch_preprocessed_files = ch_preprocessed_files.mix(XREACTIVE_PROBES_FIND_REMOVE.out.rdata)
 

@@ -1,21 +1,12 @@
 #!/usr/bin/env Rscript
 
 # Load necessary libraries
-library(argparse)
 library(minfi)
 library(IlluminaHumanMethylationEPICmanifest)
 
-# Create argument parser
-parser <- ArgumentParser(description = 'Preprocess methylation data')
-parser$add_argument('idat_folders', type = 'character', help = 'Path to the folder containing .idat files')
-parser$add_argument('samplesheet_name', type = 'character', help = 'Name of the sample sheet (CSV format)')
-
-# Parse the command-line arguments
-args <- parser$parse_args()
-
 # Get the input arguments
-dataDirectory <- args$idat_folders
-metharray_sheet <- args$samplesheet_name
+dataDirectory <- "$idat_folders"
+metharray_sheet <- "$samplesheet_name"
 
 # Set constants
 P = 0.01
@@ -23,8 +14,8 @@ Norm_method = "preprocessQuantile"  # Choose normalization method: "preprocessFu
 Sample_Name <- "Sample_Name"        # Column name that encodes the sample names
 
 # Print some info for debugging
-cat("Data directory:", dataDirectory, "\n")
-cat("Sample sheet:", metharray_sheet, "\n")
+cat("Data directory:", paste0(dataDirectory), "\n")
+cat("Sample sheet:", paste0(metharray_sheet), "\n")
 
 # Load data
 list.files(dataDirectory, recursive = TRUE)
@@ -34,8 +25,8 @@ targets <- read.metharray.sheet(dataDirectory, pattern = metharray_sheet)
 rgSet <- read.metharray.exp(targets = targets)
 
 # Assign significant names to the columns (samples)
-targets$ID <- targets[[Sample_Name]]
-sampleNames(rgSet) <- targets$ID
+targets\$ID <- targets[[Sample_Name]]
+sampleNames(rgSet) <- targets\$ID
 
 # QC: Detection p-values of the signal quality
 detP <- detectionP(rgSet)

@@ -85,8 +85,10 @@ workflow PIPELINE_INITIALISATION {
         .splitCsv(header: true)
         .map {
             row ->
-                def idat_folder = row.idat_folder
+                def idat_folder = params.test_data ? "${projectDir}/" + row.idat_folder : row.idat_folder
                 def illumina_sample_sheet = row.illumina_sample_sheet
+                log.info "Using IDAT folder: ${idat_folder}"
+                log.info "Sample sheet used from the IDAT folder: ${illumina_sample_sheet}"
                 return [idat_folder, illumina_sample_sheet]
         }
         .set { ch_samplesheet }

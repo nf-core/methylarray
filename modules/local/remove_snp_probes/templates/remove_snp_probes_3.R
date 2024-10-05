@@ -1,4 +1,4 @@
-#! usr/R
+#!/usr/bin/env Rscript
 
 ##This script is removing SNPs probes, Finally, the script calculates methylation values.
 ### input = normalized  and filtered mSet object 
@@ -6,17 +6,9 @@
 
 ##Requirements
 library("minfi")
-library("argparse")
 library("readr")
 
-
-# Create argument parser
-parser <- ArgumentParser(description = 'Preprocess methylation data')
-parser$add_argument('rdata', type = 'character', help = '.RData from XREACTIVE')
-# Parse the command-line arguments
-args <- parser$parse_args()
-# Get the input arguments
-RData_XREACTIVE <- args$rdata
+RData_XREACTIVE <- "$RData_XREACTIVE"
 
 
 ##Constants
