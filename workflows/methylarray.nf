@@ -9,6 +9,7 @@ include { XREACTIVE_PROBES_FIND_REMOVE } from '../modules/local/xreactive_probes
 include { REMOVE_SNP_PROBES      } from '../modules/local/remove_snp_probes/main'
 include { REMOVE_SEX_CHROMOSOMES      } from '../modules/local/remove_sex_chromosomes/main'
 include { REMOVE_CONFOUNDING_PROBES      } from '../modules/local/remove_confounding_probes/main'
+include { ADJUST_CELL_COMPOSITION      } from '../modules/local/adjust_cell_composition/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -80,6 +81,14 @@ workflow METHYLARRAY {
             extensive_metadata
         )
     }
+
+    //
+    // MODULE: Run REMOVE_SNP_PROBES
+    // NOTE: Probably failes due to the smaller input file size than expected
+    //
+    ADJUST_CELL_COMPOSITION (
+        REMOVE_SNP_PROBES.out.csv_bVals,
+    )
 
     //
     // Collate and save software versions

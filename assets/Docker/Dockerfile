@@ -42,4 +42,4 @@ RUN R CMD INSTALL /DNAmCrosshyb
 RUN R -e "BiocManager::install(c('IlluminaHumanMethylationEPICanno.ilm10b2.hg19', 'FlowSorted.Blood.EPIC'))"
 RUN R -e "BiocManager::install(c('FlowSorted.Blood.450k'))"
 
-
+RUN R -e "BiocManager::install(c('ChAMP'))"

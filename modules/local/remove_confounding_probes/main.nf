@@ -2,7 +2,7 @@ process REMOVE_CONFOUNDING_PROBES {
     tag "${samplesheet_name}"
     label 'process_single'
 
-    container "${ 'docker.io/ajandriaa/methylarray:0.0.3dev' }" // TODO: Update container for ChAMP
+    container "${ 'docker.io/ajandriaa/methylarray:0.0.4dev' }" // TODO: Update container for ChAMP
 
     input:
     tuple val(samplesheet_name), path(RData_mVals)
