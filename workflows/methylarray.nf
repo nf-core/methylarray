@@ -12,6 +12,7 @@ include { REMOVE_CONFOUNDING_PROBES      } from '../modules/local/remove_confoun
 include { ADJUST_CELL_COMPOSITION      } from '../modules/local/adjust_cell_composition/main'
 include { ADJUST_BATCH_EFFECT     } from '../modules/local/adjust_batch_effect/main'
 include { FIND_DMP     } from '../modules/local/find_dmp/main'
+include { FIND_DMR     } from '../modules/local/find_dmr/main'
 
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
@@ -73,48 +74,52 @@ workflow METHYLARRAY {
     )
 
     //
-    // MODULE: Run REMOVE_CONFOUNDING_PROBES
-    // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+    // MODULE: Run REMOVE_SNP_PROBES
+    // NOTE: Probably failes due to the smaller input file size than expected
     //
+    ADJUST_CELL_COMPOSITION (
+        REMOVE_SNP_PROBES.out.csv_bVals,
+    )
+
     if (params.confounding_probes_rm_sheet) {
+        //
+        // MODULE: Run REMOVE_CONFOUNDING_PROBES
+        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+        //
         REMOVE_CONFOUNDING_PROBES (
             REMOVE_SNP_PROBES.out.csv_mVals,
             REMOVE_SNP_PROBES.out.csv_bVals,
             REMOVE_SNP_PROBES.out.rdata,
             extensive_metadata
         )
-    }
 
-    //
-    // MODULE: Run REMOVE_SNP_PROBES
-    // NOTE: Probably failes due to the smaller input file size than expected
-    //
-    if (params.adjust_cell_composition) {
-        ADJUST_CELL_COMPOSITION (
-            REMOVE_SNP_PROBES.out.csv_bVals,
-        )
-    }
-
-    //
-    // MODULE: Run REMOVE_CONFOUNDING_PROBES
-    // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-    //
-    if (params.confounding_probes_rm_sheet) {
+        //
+        // MODULE: Run REMOVE_CONFOUNDING_PROBES
+        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+        //
         ADJUST_BATCH_EFFECT (
             REMOVE_SNP_PROBES.out.csv_bVals,
             extensive_metadata
         )
-    }
 
-    //
-    // MODULE: Run REMOVE_CONFOUNDING_PROBES
-    // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-    //
-    if (params.confounding_probes_rm_sheet) {
+        //
+        // MODULE: Run FIND_DMP
+        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+        //
         FIND_DMP (
             REMOVE_SNP_PROBES.out.csv_bVals,
             extensive_metadata
         )
+
+        //
+        // MODULE: Run FIND_DMR
+        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+        //
+        FIND_DMR (
+            REMOVE_SNP_PROBES.out.csv_bVals,
+            extensive_metadata
+        )
+
     }
 
     //
