@@ -10,6 +10,7 @@ include { REMOVE_SNP_PROBES      } from '../modules/local/remove_snp_probes/main
 include { REMOVE_SEX_CHROMOSOMES      } from '../modules/local/remove_sex_chromosomes/main'
 include { REMOVE_CONFOUNDING_PROBES      } from '../modules/local/remove_confounding_probes/main'
 include { ADJUST_CELL_COMPOSITION      } from '../modules/local/adjust_cell_composition/main'
+include { ADJUST_BATCH_EFFECT     } from '../modules/local/adjust_batch_effect/main'
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -72,23 +73,37 @@ workflow METHYLARRAY {
     // MODULE: Run REMOVE_CONFOUNDING_PROBES
     // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
     //
-    if (params.confounding_probes_rm_sheet) {
-        extensive_metadata = Channel.fromPath(params.confounding_probes_rm_sheet)
-        REMOVE_CONFOUNDING_PROBES (
-            REMOVE_SNP_PROBES.out.csv_mVals,
-            REMOVE_SNP_PROBES.out.csv_bVals,
-            REMOVE_SNP_PROBES.out.rdata,
-            extensive_metadata
-        )
-    }
+    // if (params.confounding_probes_rm_sheet) {
+    //     extensive_metadata = Channel.fromPath(params.confounding_probes_rm_sheet)
+    //     REMOVE_CONFOUNDING_PROBES (
+    //         REMOVE_SNP_PROBES.out.csv_mVals,
+    //         REMOVE_SNP_PROBES.out.csv_bVals,
+    //         REMOVE_SNP_PROBES.out.rdata,
+    //         extensive_metadata
+    //     )
+    // }
 
     //
     // MODULE: Run REMOVE_SNP_PROBES
     // NOTE: Probably failes due to the smaller input file size than expected
     //
-    ADJUST_CELL_COMPOSITION (
-        REMOVE_SNP_PROBES.out.csv_bVals,
-    )
+    if (params.adjust_cell_composition) {
+        ADJUST_CELL_COMPOSITION (
+            REMOVE_SNP_PROBES.out.csv_bVals,
+        )
+    }
+
+    //
+    // MODULE: Run REMOVE_CONFOUNDING_PROBES
+    // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+    //
+    if (params.confounding_probes_rm_sheet) {
+        extensive_metadata = Channel.fromPath(params.confounding_probes_rm_sheet)
+        ADJUST_BATCH_EFFECT (
+            REMOVE_SNP_PROBES.out.csv_bVals,
+            extensive_metadata
+        )
+    }
 
     //
     // Collate and save software versions
