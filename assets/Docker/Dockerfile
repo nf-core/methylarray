@@ -43,3 +43,5 @@ RUN R -e "BiocManager::install(c('IlluminaHumanMethylationEPICanno.ilm10b2.hg19'
 RUN R -e "BiocManager::install(c('FlowSorted.Blood.450k'))"
 
 RUN R -e "BiocManager::install(c('ChAMP'))"
+
+RUN R -e "install.packages(c('rio'), repos='http://cran.rstudio.com/')"

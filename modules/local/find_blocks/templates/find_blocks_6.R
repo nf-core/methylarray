@@ -11,8 +11,8 @@ library(readr)
 
 ##Load previously saved data (RData objects, for more details, please look at pre-processing.Rmd, cell_composition_correction.R and rem_conf_probes_adj_age.R
 ###Load necessary data
-bVals <- read_csv("bVals.csv")
-metadata <- read_csv("preprocess_metadata.csv") %>%
+bVals <- read_csv("$bVALS_SNPPROBES")
+metadata <- read_csv("$extensive_metadata") %>%
   filter(sample_id %in% c(colnames(bVals)))
 ####Match metadata order to columns in bVals
 metadata <- metadata[match(c(colnames(bVals)), metadata\$sample_id),]
@@ -38,4 +38,4 @@ blocks <- champ.Block(beta = bVals[,Samples],
                        maxClusterGap = Max, 
                        minNum = Min)
 
-  write_csv(blocks, "PSC/blocks_champ.csv")
+  write_csv(blocks, "blocks_champ.csv")

@@ -9,7 +9,7 @@ library(ChAMP)
 library(lumi)
 
 ##Load previously saved data (RData objects, for more details, please look at pre-processing.Rmd)
-bVals <- as.matrix(read_csv("$bVALS_SNPPROBES"))
+bVals <- as.matrix(read_csv("$bVALS_SNPPROBES") %>% tibble::column_to_rownames("rownames"))
 
 ##Correct for cell composition using ChAMP 
 bVals_corrected <- champ.refbase(beta = bVals, arraytype = "EPIC") # This currently fails as the file lacks cg probes in row names but was like so in the source script

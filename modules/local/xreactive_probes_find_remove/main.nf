@@ -2,7 +2,7 @@ process XREACTIVE_PROBES_FIND_REMOVE {
     tag "${RData_PREPROCESSING.baseName}"
     label 'process_medium'
 
-    container "${ 'docker.io/ajandriaa/methylarray:0.0.2dev' }"
+    container "${ params.methylarray_deps_container }"
 
     input:
     tuple val(samplesheet_name), path(RData_PREPROCESSING)

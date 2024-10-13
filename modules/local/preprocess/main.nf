@@ -2,7 +2,7 @@ process PREPROCESS {
     tag "${samplesheet_name}"
     label 'process_single'
 
-    container "${ 'docker.io/ajandriaa/methylarray:0.0.2dev' }"
+    container "${ params.methylarray_deps_container }"
 
     input:
     tuple path(idat_folders), val(samplesheet_name)

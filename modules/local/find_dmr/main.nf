@@ -2,7 +2,7 @@ process FIND_DMR {
     tag "${samplesheet_name}"
     label 'process_single'
 
-    container "${ 'docker.io/ajandriaa/methylarray:0.0.4dev' }"
+    container "${ params.methylarray_deps_container }"
 
     input:
     tuple val(samplesheet_name), path(bVALS_SNPPROBES)

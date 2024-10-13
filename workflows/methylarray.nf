@@ -79,7 +79,7 @@ workflow METHYLARRAY {
     // NOTE: Probably failes due to the smaller input file size than expected
     //
     ADJUST_CELL_COMPOSITION (
-        REMOVE_SNP_PROBES.out.csv_bVals,
+        REMOVE_SNP_PROBES.out.csv_bVals
     )
 
     if (params.confounding_probes_rm_sheet) {

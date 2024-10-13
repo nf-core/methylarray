@@ -2,7 +2,7 @@ process REMOVE_SEX_CHROMOSOMES {
     tag "${samplesheet_name}"
     label 'process_single'
 
-    container "${ 'docker.io/ajandriaa/methylarray:0.0.3dev' }"
+    container "${ params.methylarray_deps_container }"
 
     input:
     tuple val(samplesheet_name), path(RData_SNPPROBES)
