@@ -32,5 +32,5 @@ bVals <- getBeta(mSetSqFlt)
 library(dplyr)
 
 write_csv(as.data.frame(mVals), "mVals_noXprob_noSNP.csv")
-write_csv(as.data.frame(bVals) %>% tibble::rownames_to_column("rownames"), "bVals_noXprob_noSNP.csv")
+write_csv(as.data.frame(bVals), "bVals_noXprob_noSNP.csv")
 save(mSetSqFlt, file = "mSetSqFlt_noXprob_noSNP.RData")

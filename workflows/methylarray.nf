@@ -4,17 +4,20 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PREPROCESS             } from '../modules/local/preprocess/main'
-include { XREACTIVE_PROBES_FIND_REMOVE } from '../modules/local/xreactive_probes_find_remove/main'
-include { REMOVE_SNP_PROBES      } from '../modules/local/remove_snp_probes/main'
-include { REMOVE_SEX_CHROMOSOMES      } from '../modules/local/remove_sex_chromosomes/main'
-include { REMOVE_CONFOUNDING_PROBES      } from '../modules/local/remove_confounding_probes/main'
-include { ADJUST_CELL_COMPOSITION      } from '../modules/local/adjust_cell_composition/main'
-include { ADJUST_BATCH_EFFECT     } from '../modules/local/adjust_batch_effect/main'
-include { FIND_DMP     } from '../modules/local/find_dmp/main'
-include { FIND_DMR     } from '../modules/local/find_dmr/main'
-include { FIND_BLOCKS     } from '../modules/local/find_blocks/main'
+// methylarray
+include { PREPROCESS                    } from '../modules/local/preprocess/main'
+include { XREACTIVE_PROBES_FIND_REMOVE  } from '../modules/local/xreactive_probes_find_remove/main'
+include { REMOVE_SNP_PROBES             } from '../modules/local/remove_snp_probes/main'
+include { REMOVE_SEX_CHROMOSOMES        } from '../modules/local/remove_sex_chromosomes/main'
+include { REMOVE_CONFOUNDING_PROBES     } from '../modules/local/remove_confounding_probes/main'
+include { ADJUST_CELL_COMPOSITION       } from '../modules/local/adjust_cell_composition/main'
+include { ADJUST_BATCH_EFFECT           } from '../modules/local/adjust_batch_effect/main'
+include { FIND_DMP                      } from '../modules/local/find_dmp/main'
+include { FIND_DMR                      } from '../modules/local/find_dmr/main'
+include { FIND_BLOCKS                   } from '../modules/local/find_blocks/main'
 
+
+// nf-core
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -37,7 +40,7 @@ workflow METHYLARRAY {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
     ch_preprocessed_files = Channel.empty()
-    extensive_metadata = params.confounding_probes_rm_sheet ? Channel.fromPath(params.confounding_probes_rm_sheet) : Channel.empty()
+    extensive_metadata = params.sample_metadata ? Channel.fromPath(params.sample_metadata) : Channel.empty()
 
     //
     // MODULE: Run PREPROCESS
@@ -45,18 +48,16 @@ workflow METHYLARRAY {
     PREPROCESS (
         ch_samplesheet
     )
-    ch_preprocessed_files = ch_preprocessed_files.mix(PREPROCESS.out.rdata)
 
     //
     // MODULE: Run XREACTIVE_PROBES_FIND_REMOVE
     //
     // Download from: https://github.com/pjhop/DNAmCrosshyb at https://doi.org/10.5281/zenodo.4088019
-    genome_path = Channel.fromPath("${projectDir}/results/genome_bs/hg19")
+    genome_path = Channel.fromPath("${projectDir}/assets/testdata/genome_bs/hg19")
     XREACTIVE_PROBES_FIND_REMOVE (
         PREPROCESS.out.rdata,
         genome_path
     )
-    ch_preprocessed_files = ch_preprocessed_files.mix(XREACTIVE_PROBES_FIND_REMOVE.out.rdata)
 
     //
     // MODULE: Run REMOVE_SNP_PROBES
@@ -64,73 +65,85 @@ workflow METHYLARRAY {
     REMOVE_SNP_PROBES (
         XREACTIVE_PROBES_FIND_REMOVE.out.rdata
     )
-    ch_preprocessed_files = ch_preprocessed_files.mix(REMOVE_SNP_PROBES.out.rdata)
 
     //
-    // MODULE: Run REMOVE_SNP_PROBES
+    // Optional steps of methylarray
     //
-    REMOVE_SEX_CHROMOSOMES (
-        REMOVE_SNP_PROBES.out.rdata,
-        PREPROCESS.out.rdata_rgSet
-    )
 
-    //
-    // MODULE: Run REMOVE_SNP_PROBES
-    // NOTE: Probably failes due to the smaller input file size than expected
-    //
-    ADJUST_CELL_COMPOSITION (
-        REMOVE_SNP_PROBES.out.csv_bVals
-    )
+    // TODO: Optional steps are dependent on each other, so we need to run them in a specific order for now
+    optional_ch = Channel.empty()
 
-    if (params.confounding_probes_rm_sheet) {
-        //
-        // MODULE: Run REMOVE_CONFOUNDING_PROBES
-        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-        //
-        REMOVE_CONFOUNDING_PROBES (
-            REMOVE_SNP_PROBES.out.csv_mVals,
-            REMOVE_SNP_PROBES.out.csv_bVals,
-            REMOVE_SNP_PROBES.out.rdata,
-            extensive_metadata
-        )
+    if (params.run_optional_steps) {
+        if (params.remove_sex_chromosomes) {
+            //
+            // MODULE: Run REMOVE_SEX_CHROMOSOMES
+            //
+            REMOVE_SEX_CHROMOSOMES (
+                REMOVE_SNP_PROBES.out.rdata,
+                PREPROCESS.out.rdata_rgSet
+            )
+        }
 
-        //
-        // MODULE: Run REMOVE_CONFOUNDING_PROBES
-        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-        //
-        ADJUST_BATCH_EFFECT (
-            REMOVE_SNP_PROBES.out.csv_bVals,
-            extensive_metadata
-        )
+        if (params.remove_confounding_probes) {
+            //
+            // MODULE: Run REMOVE_CONFOUNDING_PROBES
+            //
+            REMOVE_CONFOUNDING_PROBES (
+                REMOVE_SEX_CHROMOSOMES.out.mVals_csv,
+                REMOVE_SEX_CHROMOSOMES.out.bVals_csv,
+                REMOVE_SEX_CHROMOSOMES.out.mSetSqFlt,
+                extensive_metadata
+            )
+        }
 
-        //
-        // MODULE: Run FIND_DMP
-        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-        //
-        FIND_DMP (
-            REMOVE_SNP_PROBES.out.csv_bVals,
-            extensive_metadata
-        )
+        if (params.adjust_cell_composition) {
+            //
+            // MODULE: Run ADJUST_CELL_COMPOSITION
+            //
+            ADJUST_CELL_COMPOSITION (
+                REMOVE_CONFOUNDING_PROBES.out.bVals
+            )
+        }
 
-        //
-        // MODULE: Run FIND_DMR
-        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-        //
-        FIND_DMR (
-            REMOVE_SNP_PROBES.out.csv_bVals,
-            extensive_metadata
-        )
-
-        //
-        // MODULE: Run FIND_DMR
-        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
-        //
-        FIND_BLOCKS (
-            REMOVE_SNP_PROBES.out.csv_bVals,
-            extensive_metadata
-        )
-
+        if (params.adjust_batch_effect) {
+            //
+            // MODULE: Run REMOVE_CONFOUNDING_PROBES
+            //
+            ADJUST_BATCH_EFFECT (
+                ADJUST_CELL_COMPOSITION.out.bVals,
+                extensive_metadata
+            )
+        }
     }
+
+    //
+    // Output channel following optional steps
+    //
+    final_bVals_ch = ADJUST_BATCH_EFFECT.out.bVals
+
+    //
+    // MODULE: Run FIND_DMP
+    //
+    FIND_DMP (
+        final_bVals_ch,
+        extensive_metadata
+    )
+
+    //
+    // MODULE: Run FIND_DMR
+    //
+    FIND_DMR (
+        final_bVals_ch,
+        extensive_metadata
+    )
+
+    //
+    // MODULE: Run FIND_DMR
+    //
+    FIND_BLOCKS (
+        final_bVals_ch,
+        extensive_metadata
+    )
 
     //
     // Collate and save software versions

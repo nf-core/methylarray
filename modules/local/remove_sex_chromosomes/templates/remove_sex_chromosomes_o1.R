@@ -42,6 +42,7 @@ mSetSqFlt <- dropLociWithSnps(mSetSqFlt, snps=c("SBE","CpG", "Probe"), maf=0) ##
 mVals <- getM(mSetSqFlt)
 bVals <- getBeta(mSetSqFlt)
 
+# NOTE: Why is this here?
 ##Calculate cell composition estimation
 cellCounts <- estimateCellCounts(rgSet) %>%
   as.data.frame() %>%
@@ -52,4 +53,10 @@ cellCounts <- estimateCellCounts(rgSet) %>%
 save(mVals, file = "mVals.RData")
 save(bVals, file = "bVals.RData")
 save(mSetSqFlt, file = "mSetSqFlt.RData")
-save(rgSet, file = "rgSet.RData")
+save(rgSet, file = "rgSet.RData") # NOTE: Not needed?
+
+library(dplyr)
+write_csv(as.data.frame(bVals), "mVals.csv")
+write_csv(as.data.frame(mVals), "bVals.csv")
+write_csv(as.data.frame(bVals) %>% tibble::rownames_to_column(var = 'probe') , "mVals.csv")
+write_csv(as.data.frame(mVals) %>% tibble::rownames_to_column(var = 'probe'), "bVals.csv")

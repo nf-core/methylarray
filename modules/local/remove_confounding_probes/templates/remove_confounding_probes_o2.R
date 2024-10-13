@@ -17,8 +17,8 @@ registerDoParallel(makePSOCKcluster(3))
 t = 0.05
 
 ##Load previously saved data (RData objects, for more details, please look at pre-processing.Rmd)
-mVals <- read.csv("$RData_mVals")
-bVals <- read.csv("$RData_bVals")
+mVals <- read.csv("$mVals") %>% tibble::column_to_rownames(var = 'probe')
+bVals <- read.csv("$bVals") %>% tibble::column_to_rownames(var = 'probe')
 get(load("$RData_REMOVESNP"))
 assays(mSetSqFlt, withDimnames = FALSE) [["M"]] <- mVals
 assays(mSetSqFlt, withDimnames = FALSE) [["Beta"]] <- bVals
@@ -32,7 +32,9 @@ metadata <- metadata[match(c(colnames(mVals)), metadata\$sample_id),]
 CONFOUNDER <- metadata\$age
 
 ###Removing probes with high correlation to a confounder
-dmp.conf.sig <- dmpFinder(mVals, CONFOUNDER, type = "categorical") %>% 
+dmp.conf.sig <- dmpFinder(as.matrix(mVals), CONFOUNDER, type = "categorical",
+                shrinkVar = TRUE # For development as otherwise crashes
+                ) %>% 
                 rownames_to_column("probe") %>%
                 filter(qval < t) %>%
                 dplyr::select(probe) 
@@ -50,5 +52,5 @@ assays(mSetSqFlt, withDimnames = FALSE) [["Beta"]] <- bVals
 
 ##Save the data
 save(mSetSqFlt, file = "mSetSqFlt.filtered_probes.RData")
-write_csv(bVals, "cbVals.filtered_probes.csv")
-write_csv(mVals, "cmVals.filtered_probes.csv")
+write_csv(bVals %>% tibble::rownames_to_column(var = "probe"), "cbVals.filtered_probes.csv")
+write_csv(mVals %>% tibble::rownames_to_column(var = "probe"), "cmVals.filtered_probes.csv")
