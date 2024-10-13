@@ -13,6 +13,7 @@ include { ADJUST_CELL_COMPOSITION      } from '../modules/local/adjust_cell_comp
 include { ADJUST_BATCH_EFFECT     } from '../modules/local/adjust_batch_effect/main'
 include { FIND_DMP     } from '../modules/local/find_dmp/main'
 include { FIND_DMR     } from '../modules/local/find_dmr/main'
+include { FIND_BLOCKS     } from '../modules/local/find_blocks/main'
 
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-validation'
@@ -116,6 +117,15 @@ workflow METHYLARRAY {
         // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
         //
         FIND_DMR (
+            REMOVE_SNP_PROBES.out.csv_bVals,
+            extensive_metadata
+        )
+
+        //
+        // MODULE: Run FIND_DMR
+        // NOTE: This is not completly integrated as additional insights are needed in relation to the extensive_metadata.csv file
+        //
+        FIND_BLOCKS (
             REMOVE_SNP_PROBES.out.csv_bVals,
             extensive_metadata
         )
