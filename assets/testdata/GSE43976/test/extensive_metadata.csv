@@ -1,5 +1,5 @@
-sample_id,age,bmi_cat
-GSM1075838,34,1
-GSM1075839,55,1
-GSM1075840,31,2
-GSM1075841,79,2
+sample_id,group,age,bmi_cat
+GSM1075838,control,34,1
+GSM1075839,control,55,1
+GSM1075840,disease,31,2
+GSM1075841,disease,79,2
