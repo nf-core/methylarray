@@ -69,22 +69,27 @@ workflow METHYLARRAY {
     //
     // Optional steps of methylarray
     //
-
-    // TODO: Optional steps are dependent on each other, so we need to run them in a specific order for now
-    optional_ch = Channel.empty()
+    
+    //
+    // Output channel following optional steps
+    //
+    final_bVals_ch = Channel.empty()
+    current_bVals_ch = Channel.empty()
 
     if (params.run_optional_steps) {
-        if (params.remove_sex_chromosomes) {
+        current_bVals_ch = REMOVE_SNP_PROBES.out.csv_bVals
+        if (params.remove_sex_chromosomes || params.remove_confounding_probes) { // If params.remove_confounding_probes then this has to be run
+            current_bVals_ch = REMOVE_SNP_PROBES.out.rdata
             //
             // MODULE: Run REMOVE_SEX_CHROMOSOMES
             //
             REMOVE_SEX_CHROMOSOMES (
-                REMOVE_SNP_PROBES.out.rdata,
+                current_bVals_ch,
                 PREPROCESS.out.rdata_rgSet
             )
         }
 
-        if (params.remove_confounding_probes) {
+        if (params.remove_confounding_probes || params.remove_sex_chromosomes) { // Currently depends on REMOVE_SEX_CHROMOSOMES
             //
             // MODULE: Run REMOVE_CONFOUNDING_PROBES
             //
@@ -94,6 +99,7 @@ workflow METHYLARRAY {
                 REMOVE_SEX_CHROMOSOMES.out.mSetSqFlt,
                 extensive_metadata
             )
+            current_bVals_ch = REMOVE_CONFOUNDING_PROBES.out.bVals
         }
 
         if (params.adjust_cell_composition) {
@@ -101,8 +107,9 @@ workflow METHYLARRAY {
             // MODULE: Run ADJUST_CELL_COMPOSITION
             //
             ADJUST_CELL_COMPOSITION (
-                REMOVE_CONFOUNDING_PROBES.out.bVals
+                current_bVals_ch
             )
+            current_bVals_ch = ADJUST_CELL_COMPOSITION.out.bVals
         }
 
         if (params.adjust_batch_effect) {
@@ -110,16 +117,17 @@ workflow METHYLARRAY {
             // MODULE: Run REMOVE_CONFOUNDING_PROBES
             //
             ADJUST_BATCH_EFFECT (
-                ADJUST_CELL_COMPOSITION.out.bVals,
+                current_bVals_ch,
                 extensive_metadata
             )
+            current_bVals_ch = ADJUST_BATCH_EFFECT.out.bVals
         }
     }
 
     //
-    // Output channel following optional steps
+    // Update final bVals channel
     //
-    final_bVals_ch = ADJUST_BATCH_EFFECT.out.bVals
+    final_bVals_ch = current_bVals_ch
 
     //
     // MODULE: Run FIND_DMP
@@ -138,12 +146,17 @@ workflow METHYLARRAY {
     )
 
     //
-    // MODULE: Run FIND_DMR
+    // MODULE OPTIONAL: Run FIND_BLOCKS
     //
-    FIND_BLOCKS (
-        final_bVals_ch,
-        extensive_metadata
-    )
+    if (params.find_blocks) {
+        //
+        // MODULE: Run FIND_BLOCKS
+        //
+        FIND_BLOCKS (
+            final_bVals_ch,
+            extensive_metadata
+        )
+    }
 
     //
     // Collate and save software versions

@@ -9,8 +9,8 @@ process FIND_DMR {
     path(extensive_metadata)
 
     output:
-    tuple val(samplesheet_name), path("dmp_champ.%s.csv"), emit: mVals
-    tuple val(samplesheet_name), path("dmp_minfi.csv"), emit: bVals
+    tuple val(samplesheet_name), path("dmp_champ.*.csv"), emit: all
+    tuple val(samplesheet_name), path("dmp_minfi.csv"), emit: minfi
 
     when:
     task.ext.when == null || task.ext.when

@@ -34,7 +34,8 @@ Method = "BH"
 ARRAY = "EPIC"
 
 ###Choose adjusted P value
-P = 0.05
+P = 0.05 
+P = 1 # NOTE: for development
 
 ###Computing DMPs
 dmp_data <- champ.DMP(beta = bVals[,Samples], 
@@ -46,7 +47,8 @@ dmp_data <- champ.DMP(beta = bVals[,Samples],
 export_list(dmp_data, file = "dmp_champ.%s.csv")
 
 ###Finding DMPs with another method (required binary categories of "Class", it will work with multiple categories but the do not specify which comparison it is)
-dmp_minfi <- dmpFinder(bVals[,Samples], 
+print(bVals[,Samples])
+dmp_minfi <- dmpFinder(as.matrix(bVals[,Samples]), 
                  Class, 
           type = "categorical") %>% 
           filter(pval < P) %>%

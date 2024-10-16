@@ -34,12 +34,14 @@ ARRAY = "EPIC"
 
 ###Choose adjusted P value
 P = 0.05
+P = 1 # NOTE: for development
 
 ###Choose number of minimum probes by region
 Min = 5
 
 ###Choose maximum gap between 2 probes in a region
-Max = 300
+Max = 300 
+Max = 10000 # NOTE: for development
 
 ### Choose number of bootstraps
 B = 1000
@@ -100,7 +102,7 @@ DMRcate_manual_run = function(beta_matrix,
 if (Method %in% c("Bumphunter", "ProbeLasso")) {
   
   ###Compute Champ's bumphunter based DMR permutations
-  dmr_champ <- champ.DMR(beta = bVals[,Samples],
+  dmr_champ <- champ.DMR(beta = as.matrix(bVals[,Samples]),
                          pheno = Class,
                          arraytype = ARRAY,
                          method = Method,
