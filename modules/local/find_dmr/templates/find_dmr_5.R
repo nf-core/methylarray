@@ -40,8 +40,7 @@ P = 1 # NOTE: for development
 Min = 5
 
 ###Choose maximum gap between 2 probes in a region
-Max = 300 
-Max = 10000 # NOTE: for development
+Max = 300
 
 ### Choose number of bootstraps
 B = 1000
