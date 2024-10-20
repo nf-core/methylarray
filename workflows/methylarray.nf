@@ -52,8 +52,9 @@ workflow METHYLARRAY {
     //
     // MODULE: Run XREACTIVE_PROBES_FIND_REMOVE
     //
-    // Download from: https://github.com/pjhop/DNAmCrosshyb at https://doi.org/10.5281/zenodo.4088019
-    genome_path = Channel.fromPath("${projectDir}/assets/testdata/genome_bs/hg19")
+    // Download from: https://github.com/pjhop/DNAmCrosshyb at https://doi.org/10.5281/zenodo.4088019 and point to the version
+    // TODO: If bs_genome_path is not provided then the pipeline might resolve it itself
+    genome_path = Channel.fromPath(params.bs_genome_path)
     XREACTIVE_PROBES_FIND_REMOVE (
         PREPROCESS.out.rdata,
         genome_path
@@ -140,7 +141,7 @@ workflow METHYLARRAY {
     //
     // MODULE: Run FIND_DMR
     //
-    if (params.testdata == false) { // Will not be able to find DMRs with test data
+    if (params.test_data == false) { // Will not be able to find DMRs with test data
         FIND_DMR (
             final_bVals_ch,
             extensive_metadata
