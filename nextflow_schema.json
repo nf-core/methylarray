@@ -220,6 +220,66 @@
                     "hidden": true
                 }
             }
+        },
+        "generic_nf_core_methylarray_options": {
+            "title": "Generic nf-core/methylarray options",
+            "type": "object",
+            "description": "Options related to the tools used in nf-core/methylarray.",
+            "default": "",
+            "properties": {
+                "methylarray_deps_container": {
+                    "type": "string",
+                    "default": "docker.io/ajandriaa/methylarray:0.0.5dev",
+                    "description": "Container link with the pipeline dependencies"
+                },
+                "sample_metadata": {
+                    "type": "string",
+                    "description": "Path to comma-separated file containing extra information about the samples in the experiment"
+                },
+                "bs_genome_path": {
+                    "type": "string",
+                    "description": "Path to the bisulfite-converted reference genome generated with 'DNAmCrosshyb' utility scripts"
+                },
+                "find_dmrs": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to compute DMRs"
+                },
+                "xreactive_chr_targets": {
+                    "type": "string",
+                    "default": "all",
+                    "description": "String passed to 'chromosomes' argument in 'map_probes()' function from 'DNAmCrosshyb' R package in 'XREACTIVE_PROBES_FIND_REMOVE' process"
+                },
+                "run_optional_steps": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to run optional processes"
+                },
+                "remove_sex_chromosomes": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to remove sex chromosomes in an optional step"
+                },
+                "remove_confounding_probes": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to remove confounding probes in an optional step"
+                },
+                "adjust_cell_composition": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to adjust the data for cell composition in an optional step"
+                },
+                "adjust_batch_effect": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to adjust the data for batch effects in an optional step"
+                },
+                "find_blocks": {
+                    "type": "boolean",
+                    "description": "Whether to compute blocks of DNA regions with many DMPs"
+                }
+            }
         }
     },
     "allOf": [
@@ -234,6 +294,9 @@
         },
         {
             "$ref": "#/$defs/generic_options"
+        },
+        {
+            "$ref": "#/$defs/generic_nf_core_methylarray_options"
         }
     ]
 }
