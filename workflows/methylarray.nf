@@ -141,7 +141,7 @@ workflow METHYLARRAY {
     //
     // MODULE: Run FIND_DMR
     //
-    if (params.test_data == false) { // Will not be able to find DMRs with test data
+    if (params.find_dmrs) { // Will not be able to find DMRs with test data
         FIND_DMR (
             final_bVals_ch,
             extensive_metadata

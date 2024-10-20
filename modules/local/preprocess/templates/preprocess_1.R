@@ -8,6 +8,13 @@ library(IlluminaHumanMethylationEPICmanifest)
 dataDirectory <- "$idat_folders"
 metharray_sheet <- "$samplesheet_name"
 
+# If input is a compressed archive, extract it
+if(grepl(".tar.gz", dataDirectory)) {
+  message("Extracting ", dataDirectory)
+  system(paste("tar -zxvf", dataDirectory))
+  dataDirectory <- gsub(".tar.gz\$", "", dataDirectory)
+}
+
 # Set constants
 P = 0.01
 Norm_method = "preprocessQuantile"  # Choose normalization method: "preprocessFunnorm" or "preprocessQuantile"

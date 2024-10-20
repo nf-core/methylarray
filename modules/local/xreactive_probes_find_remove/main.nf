@@ -16,5 +16,6 @@ process XREACTIVE_PROBES_FIND_REMOVE {
     task.ext.when == null || task.ext.when
     
     script:
+    chrom_number = params.xreactive_chr_targets ? params.xreactive_chr_targets : 'all'
     template "xreactive_probes_find_remove_2.R"
 }

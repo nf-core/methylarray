@@ -14,9 +14,6 @@ process PREPROCESS {
 
     when:
     task.ext.when == null || task.ext.when
-    
-    // For -profile test
-    idat_folders = params.test_data ? idat_folders.getFileName() : idat_folders
 
     script:
     template "preprocess_1.R"

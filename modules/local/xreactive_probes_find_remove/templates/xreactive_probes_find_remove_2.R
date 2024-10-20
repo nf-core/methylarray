@@ -18,6 +18,13 @@ library(readr)
 RData_PREPROCESSING <- "$RData_PREPROCESSING"
 Genome_PATH <- "$genome_path"
 
+# If input is a compressed archive, extract it
+if(grepl(".tar.gz", Genome_PATH)) {
+  message("Extracting ", Genome_PATH)
+  system(paste("tar -zxvf", Genome_PATH))
+  Genome_PATH <- gsub(".tar.gz\$", "", Genome_PATH)
+}
+
 ####The human genome version should be downloaded to data/genome_bs and here we specify the file 
 #PATH <- "data/genome_bs/hg19"
 PATH <- Genome_PATH
@@ -33,8 +40,8 @@ get(load(RData_PREPROCESSING))
 ##Cross-reactive probes detection, 
 probes <- rownames(mSetSqFlt)
 matches <- map_probes(probes, path = PATH, 
-                      # chromosomes was 'all' but is reduced to 2 for testing
-                      array = "EPIC", chromosomes = "2", min_width = MIN, max_width = MAX, step_size = STEP, 
+                      # chromosomes was 'all' but is reduced to 3 for testing
+                      array = "EPIC", chromosomes = "$chrom_number", min_width = MIN, max_width = MAX, step_size = STEP, 
                       allow_mismatch = FALSE, allow_INDEL = FALSE, verbose = TRUE)
 
 ###Identify probes mapping to multiple sites on the genome
