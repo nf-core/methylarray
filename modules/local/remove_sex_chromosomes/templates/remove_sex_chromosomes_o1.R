@@ -21,7 +21,7 @@ annotation <- getAnnotation(IlluminaHumanMethylationEPICanno.ilm10b2.hg19)
 #xprobes <- read_csv("x_reactive_probes.csv") # is this needed?
 
 ##Load data (for more detailed descriptions, see pre-processing.Rmd)
-get(load("$RData_SNPPROBES"))
+get(load("$RData_mSetSqFlt"))
 get(load("$RData_rgSet"))
 #"mSetSqFlt.RData"
 #"rgSet.RData"

@@ -39,6 +39,9 @@ workflow METHYLARRAY {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
     ch_preprocessed_files = Channel.empty()
+    final_bVals_ch = Channel.empty()
+    current_bVals_ch = Channel.empty()
+
     extensive_metadata = params.sample_metadata ? Channel.fromPath(params.sample_metadata) : Channel.empty()
     //
     // MODULE: Run PREPROCESS
@@ -61,9 +64,15 @@ workflow METHYLARRAY {
     //
     // MODULE: Run REMOVE_SNP_PROBES
     //
-    REMOVE_SNP_PROBES (
-        XREACTIVE_PROBES_FIND_REMOVE.out.rdata
-    )
+    if (params.remove_snp_probes) {
+        REMOVE_SNP_PROBES (
+            XREACTIVE_PROBES_FIND_REMOVE.out.rdata
+        )
+        // current_bVals_ch = REMOVE_SNP_PROBES.out.csv_bVals // no actually, it's the rdata var that's required. Thi sis a bogus definition.
+        current_bVals_ch = REMOVE_SNP_PROBES.out.rdata
+    } else {
+        current_bVals_ch = XREACTIVE_PROBES_FIND_REMOVE.out.rdata
+    }
 
     //
     // Optional steps of methylarray
@@ -72,13 +81,10 @@ workflow METHYLARRAY {
     //
     // Output channel following optional steps
     //
-    final_bVals_ch = Channel.empty()
-    current_bVals_ch = Channel.empty()
 
     if (params.run_optional_steps) {
-        current_bVals_ch = REMOVE_SNP_PROBES.out.csv_bVals
         if (params.remove_sex_chromosomes || params.remove_confounding_probes) { // If params.remove_confounding_probes then this has to be run
-            current_bVals_ch = REMOVE_SNP_PROBES.out.rdata
+            // current_bVals_ch = REMOVE_SNP_PROBES.out.rdata
             //
             // MODULE: Run REMOVE_SEX_CHROMOSOMES
             //

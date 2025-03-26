@@ -6,7 +6,7 @@ process REMOVE_SEX_CHROMOSOMES {
     container "${ params.methylarray_deps_container }"
 
     input:
-    tuple val(samplesheet_name), path(RData_SNPPROBES)
+    tuple val(samplesheet_name), path(RData_mSetSqFlt)
     tuple val(samplesheet_name), path(RData_rgSet)
 
     output:

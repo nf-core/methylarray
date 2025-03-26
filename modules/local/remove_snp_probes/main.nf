@@ -6,7 +6,7 @@ process REMOVE_SNP_PROBES {
     container "${ params.methylarray_deps_container }"
 
     input:
-    tuple val(samplesheet_name), path(RData_XREACTIVE)
+    tuple val(samplesheet_name), path(RData_mSetSqFlt)
 
     output:
     tuple val(samplesheet_name), path("mVals_noXprob_noSNP.csv")  , emit: csv_mVals

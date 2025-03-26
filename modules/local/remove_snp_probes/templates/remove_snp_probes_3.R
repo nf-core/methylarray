@@ -8,14 +8,11 @@
 library("minfi")
 library("readr")
 
-RData_XREACTIVE <- "$RData_XREACTIVE"
-
-
 ##Constants
 MAF = 0
 
 ##Load data (for more detailed descriptions, see pre-processing.Rmd)
-get(load(RData_XREACTIVE))
+get(load("$RData_mSetSqFlt"))
 
 
 ##Remove probes with known SNPs, default is to remove all, but you can define a threshold of highest frequency of the minor allele

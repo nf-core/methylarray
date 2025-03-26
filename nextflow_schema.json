@@ -251,6 +251,10 @@
                     "default": true,
                     "description": "Whether to compute DMRs"
                 },
+                "remove_snp_probes": {
+                    "type": "boolean",
+                    "description": "Run REMOVE_SNP_PROBES?"
+                },
                 "remove_xreactive": {
                     "type": "boolean",
                     "description": "Run XREACTIVE_PROBES_FIND_REMOVE?"
