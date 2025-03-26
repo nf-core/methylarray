@@ -80,4 +80,4 @@ bVals <- getBeta(mSetSqFlt)
 ##Save all necessary R objects for later use
 write_csv(as.data.frame(mVals), "mVals_noXprob.csv")
 write_csv(as.data.frame(bVals), "bVals_noXprob.csv")
-save(mSetSqFlt, file = "mSetSqFlt_noXprob.RData")
+save(mSetSqFlt, file = "mSetSqFlt.RData")

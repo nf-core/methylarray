@@ -11,7 +11,7 @@ process XREACTIVE_PROBES_FIND_REMOVE {
 
     output:
     tuple val(samplesheet_name), path("*.csv")  , emit: csv
-    tuple val(samplesheet_name), path("mSetSqFlt_noXprob.RData"), emit: rdata
+    tuple val(samplesheet_name), path("mSetSqFlt.RData"), emit: rdata
 
     when:
     task.ext.when == null || task.ext.when

@@ -11,7 +11,7 @@ process REMOVE_SNP_PROBES {
     output:
     tuple val(samplesheet_name), path("mVals_noXprob_noSNP.csv")  , emit: csv_mVals
     tuple val(samplesheet_name), path("bVals_noXprob_noSNP.csv")  , emit: csv_bVals
-    tuple val(samplesheet_name), path("mSetSqFlt_noXprob_noSNP.RData"), emit: rdata
+    tuple val(samplesheet_name), path("mSetSqFlt.RData"), emit: rdata
 
     when:
     task.ext.when == null || task.ext.when

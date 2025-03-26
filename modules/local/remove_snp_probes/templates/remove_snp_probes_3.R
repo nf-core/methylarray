@@ -30,4 +30,4 @@ library(dplyr)
 
 write_csv(as.data.frame(mVals), "mVals_noXprob_noSNP.csv")
 write_csv(as.data.frame(bVals), "bVals_noXprob_noSNP.csv")
-save(mSetSqFlt, file = "mSetSqFlt_noXprob_noSNP.RData")
+save(mSetSqFlt, file = "mSetSqFlt.RData")
