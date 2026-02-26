@@ -1,0 +1,38 @@
+repository_type: pipeline
+
+nf_core_version: 3.5.2
+
+lint:
+  files_unchanged:
+    - .github/CONTRIBUTING.md
+    - assets/sendmail_template.txt
+  nextflow_config: false
+  multiqc_config: false
+  files_exist:
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+    - nextflow_schema.json
+    - assets/multiqc_config.yml
+  schema_lint: false
+  schema_params: false
+  schema_description: false
+
+template:
+  org: nf-core
+  name: methylarray
+  description: Pipeline for analysing Illumina EPIC v2.0 DNA methylation IDAT data.
+    It includes sample and probe QC (detection p-values, signal intensities, control
+    probes) with filtering of low-quality samples/probes, followed by background correction
+    and normalization, and downstream differential methylation analysis to identify
+    DMPs and DMRs.
+  author: Adam Schumacher / Ghada Nouairia
+  version: 1.0.0dev
+  force: true
+  outdir: .
+  skip_features:
+    - igenomes
+    - multiqc
+    - fastqc
+    - nf_schema
+    - gpu
+  is_nfcore: true
