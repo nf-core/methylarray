@@ -1,0 +1,44 @@
+name: sex_qc
+description: Predict biological sex from methylation data using minfi, compare with declared sex from metadata, and flag discordant samples.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - sex
+  - qc
+  - minfi
+input:
+  - - name: rg_rds
+      type: file
+      description: Filtered RGChannelSet object serialised as RDS.
+      pattern: "*.rds"
+  - - name: targets_tsv
+      type: file
+      description: Filtered sample targets table TSV.
+      pattern: "*.tsv"
+  - - name: meta_file
+      type: file
+      description: Sample metadata CSV containing a 'sex' column.
+      pattern: "*.csv"
+output:
+  - - name: qc_pred_sex_csv
+      type: file
+      description: CSV table of predicted sex for each sample.
+      pattern: "qc_predicted_sex.csv"
+  - - name: sex_plot
+      type: file
+      description: PNG scatter plot of predicted sex calls (optional; absent if sex information is unavailable).
+      pattern: "08_plotSex_predicted.png"
+  - - name: sex_discordant_csv
+      type: file
+      description: CSV listing samples where predicted sex does not match declared sex (optional; absent if no discordances are found).
+      pattern: "sex_discordant_samples.csv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

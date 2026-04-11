@@ -1,0 +1,35 @@
+name: import_idat
+description: Import Illumina EPIC v2 IDAT files and build an RGChannelSet (RGset) along with a sample targets table using minfi.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - idat
+  - minfi
+input:
+  - - name: sample_sheet
+      type: file
+      description: Sample sheet TSV with columns Sample_Name, Sentrix_ID, Sentrix_Position.
+      pattern: "*.tsv"
+  - - name: idat_dir
+      type: directory
+      description: Directory containing IDAT files (Green and Red channel).
+      pattern: "*"
+output:
+  - - name: rg_rds
+      type: file
+      description: RGChannelSet object serialised as RDS.
+      pattern: "rg0.rds"
+  - - name: targets_tsv
+      type: file
+      description: Sample targets table derived from the sample sheet, with full file paths.
+      pattern: "targets.tsv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

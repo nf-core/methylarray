@@ -6,58 +6,87 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+nf-core/methylarray processes Illumina EPICv2 DNA methylation array data starting from raw IDAT files. It requires three inputs: a sample sheet (TSV), a directory of IDAT files, and a metadata CSV with sample phenotype or clinical information. This page describes how to prepare those inputs and how to run the pipeline.
 
-## Samplesheet input
+## Samplesheet input (`--input`)
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+The sample sheet must be a **tab-separated** file (`.tsv`) with a header row and exactly three columns. Each row describes one sample.
 
 ```bash
---input '[path to samplesheet file]'
+--input '[path to samplesheet.tsv]'
 ```
 
-### Multiple runs of the same sample
-
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
+```tsv title="samplesheet.tsv"
+Sample_Name	Sentrix_ID	Sentrix_Position
+SAMPLE_001	207842290093	R01C01
+SAMPLE_002	207842290093	R01C02
+SAMPLE_003	207842290094	R01C01
 ```
 
-### Full samplesheet
+| Column | Description |
+| --- | --- |
+| `Sample_Name` | Unique sample identifier. Must match the `sample_id` column in the metadata CSV. |
+| `Sentrix_ID` | Illumina array barcode (e.g. `207842290093`). Together with `Sentrix_Position` this identifies the IDAT file pair. |
+| `Sentrix_Position` | Array section identifier in the format `RxxCxx` (e.g. `R01C01`). |
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
-
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
-```
-
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+The pipeline locates IDAT files by concatenating `Sentrix_ID` and `Sentrix_Position` (e.g. `207842290093_R01C01_Grn.idat` and `207842290093_R01C01_Red.idat`). Files may reside in subdirectories within `--idat_dir`.
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+
+## IDAT directory (`--idat_dir`)
+
+Point this parameter to the directory containing your raw IDAT files. Subdirectories are searched recursively.
+
+```bash
+--idat_dir '[path to directory containing IDAT files]'
+```
+
+Each sample requires a green-channel (`*_Grn.idat`) and a red-channel (`*_Red.idat`) file. Files are matched to samplesheet rows using the `Sentrix_ID_Sentrix_Position` prefix.
+
+## Metadata file (`--meta_file`)
+
+A **comma-separated** (CSV) or tab-separated file providing sample-level phenotype and clinical information. The file must include a header row. The `sample_id` column must match the `Sample_Name` values in the samplesheet — only samples present in both files will be carried forward into differential methylation analysis.
+
+```bash
+--meta_file '[path to metadata.csv]'
+```
+
+### Required columns
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `sample_id` | string | Must match `Sample_Name` in the samplesheet exactly. |
+| `group` | string | Categorical group variable used as the primary factor in DMP/DMR models. The level `"CONTROL"` is used as the reference level for all pairwise contrasts. |
+| `sex` | string | Reported biological sex (e.g. `"M"` / `"F"`). Used to validate predicted sex from methylation data. |
+
+### Optional columns
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `age` | numeric | Sample age. If present, included as a covariate in DMP/DMR linear models. |
+| `bmi` | numeric | Body mass index. If present, included as a covariate in DMP/DMR linear models. |
+| `Plate` | string | Batch identifier (e.g. hybridization plate). Used for ComBat batch correction when the `DMP_limma__combat` and `DMR_DMRcate_EPICv2__combat` analysis modes are run. |
+| `CD8T` | numeric | Estimated CD8+ T cell proportion (from cell composition step or user-supplied). |
+| `CD4T` | numeric | Estimated CD4+ T cell proportion. |
+| `NK` | numeric | Estimated NK cell proportion. |
+| `Bcell` | numeric | Estimated B cell proportion. |
+| `Mono` | numeric | Estimated monocyte proportion. |
+| `Neu` | numeric | Estimated neutrophil proportion. |
+| `Gran` | numeric | Estimated granulocyte proportion. |
+
+Cell composition columns are appended automatically when `--do_estimate_cellcomp true` (the default). If you pre-estimated cell proportions, you can supply them directly in the metadata CSV and disable estimation with `--do_estimate_cellcomp false`.
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/methylarray --input ./samplesheet.csv --outdir ./results  -profile docker
+nextflow run nf-core/methylarray \
+   --input ./samplesheet.tsv \
+   --idat_dir ./idat_files/ \
+   --meta_file ./metadata.csv \
+   --outdir ./results \
+   -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.

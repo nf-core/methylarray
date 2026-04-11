@@ -1,0 +1,46 @@
+name: dmr_dmrcate
+description: Identify differentially methylated regions (DMRs) using DMRcate on EPICv2 array data, with optional positional-replicate remapping and up to three model variants.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - DMR
+  - differential methylation
+  - DMRcate
+  - EPICv2
+  - ComBat
+input:
+  - - name: beta_dmr_uncollapsed_rds
+      type: file
+      description: Uncollapsed beta matrix retaining EPICv2 positional replicates, serialised as RDS.
+      pattern: "beta_for_DMR_uncollapsed.rds"
+  - - name: targets_tsv
+      type: file
+      description: Filtered sample targets table TSV.
+      pattern: "targets_filtered.tsv"
+  - - name: meta_aligned_csv
+      type: file
+      description: Aligned sample metadata CSV.
+      pattern: "meta_aligned.csv"
+output:
+  - - name: dmr_plate_dir
+      type: directory
+      description: Directory of DMR results from the plate-in-model run (optional; only produced when plate information is available).
+      pattern: "DMR_DMRcate_EPICv2__plate_in_model"
+  - - name: dmr_combat_dir
+      type: directory
+      description: Directory of DMR results from the ComBat-corrected run (optional; only produced when plate information is available).
+      pattern: "DMR_DMRcate_EPICv2__combat"
+  - - name: dmr_norm_dir
+      type: directory
+      description: Directory of DMR results from the normalisation-only run (always produced).
+      pattern: "DMR_DMRcate_EPICv2__norm_only"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

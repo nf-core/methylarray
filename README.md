@@ -21,47 +21,56 @@
 
 ## Introduction
 
-**nf-core/methylarray** is a bioinformatics pipeline that ...
+**nf-core/methylarray** is a bioinformatics pipeline for comprehensive analysis of Illumina EPICv2 DNA methylation arrays. It performs quality control, normalization, filtering, cell composition estimation, and differential methylation analysis (DMP and DMR) on IDAT files.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+The pipeline takes as input a sample sheet (TSV), a directory of raw IDAT files, and an optional metadata CSV with clinical or phenotype information. It produces QC reports, normalized beta-value matrices, and results from differential methylation position (DMP) and differential methylation region (DMR) analyses.
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/guidelines/graphic_design/workflow_diagrams#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+Pipeline steps:
+
+1. **Import IDAT** — Load raw IDAT files into an RGChannelSet object using minfi
+2. **Raw intensity QC** — Assess raw fluorescence intensities and flag low-quality samples
+3. **SeSAMe normalization + pOOBAH QC** — Apply SeSAMe preprocessing pipeline (QCDPB) with pOOBAH masking of failed probes; produce normalized beta values
+4. **Control probe QC report** — Generate per-sample strip plots for Illumina internal control probe categories (staining, hybridization, bisulfite conversion, etc.)
+5. **SNP heatmap** — Cluster samples by genotype SNP probes to detect sample swaps or unexpected duplicates
+6. **Density plots** — Visualize beta-value density distributions before and after SeSAMe normalization
+7. **Sex QC** — Predict biological sex from X/Y chromosome methylation intensities and compare to reported sex
+8. **Probe filtering** — Sequentially remove sex-chromosome probes, non-CpG probes, and probes with insufficient bead counts
+9. **Cell composition estimation** — Estimate blood cell-type proportions using FlowSorted.Blood.EPIC (Houseman deconvolution)
+10. **Split / collapse** — Separate beta matrices for DMP and DMR analysis; collapse EPICv2 positional replicates
+11. **Final exports** — Export final beta-value (bVals) and M-value (mVals) matrices along with probe and sample manifests
+12. **Metadata alignment** — Join methylation matrices with sample metadata, predicted sex, and cell composition estimates
+13. **Covariate PCA** — Perform PCA and ChAMP SVD analysis to assess associations between principal components and sample covariates
+14. **DMP analysis (limma)** — Run pairwise differential methylation position analysis using limma; optionally applies ComBat batch correction or includes plate as a model covariate
+15. **DMR analysis (DMRcate)** — Run pairwise differential methylation region analysis using DMRcate on EPICv2-remapped probe coordinates
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+> [!IMPORTANT]
+> This pipeline requires **Nextflow ≥ 25.04.0**. Please ensure your Nextflow installation is up to date before running.
 
-First, prepare a samplesheet with your input data that looks as follows:
+First, prepare a samplesheet describing your samples. The file must be tab-separated (TSV) with a header row:
 
-`samplesheet.csv`:
+`samplesheet.tsv`:
 
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+```tsv
+Sample_Name	Sentrix_ID	Sentrix_Position
+SAMPLE_001	207842290093	R01C01
+SAMPLE_002	207842290093	R01C02
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
-
--->
+Each row corresponds to one sample. `Sentrix_ID` and `Sentrix_Position` together identify the IDAT file pair (e.g. `207842290093_R01C01_Grn.idat` / `207842290093_R01C01_Red.idat`). The IDAT files themselves should be placed in a directory pointed to by `--idat_dir`.
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run nf-core/methylarray \
    -profile <docker/singularity/.../institute> \
-   --input samplesheet.csv \
+   --input samplesheet.tsv \
+   --idat_dir /path/to/idat_files/ \
+   --meta_file metadata.csv \
    --outdir <OUTDIR>
 ```
 
@@ -82,8 +91,6 @@ nf-core/methylarray was originally written by Adam Schumacher / Ghada Nouairia.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
-
 ## Contributions and Support
 
 If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
@@ -92,10 +99,8 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
+<!-- After first release: uncomment the line below and update the Zenodo DOI and badge at the top of this file. -->
 <!-- If you use nf-core/methylarray for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

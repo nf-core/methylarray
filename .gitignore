@@ -1,9 +1,36 @@
+# Nextflow internals
 .nextflow*
 work/
+
+# Pipeline outputs — NEVER commit (remove existing with: git rm -r --cached results/ results_nfcore/ null/)
 data/
 results/
+results_nfcore/
+null/
+
+# nf-test artifacts
+.nf-test/
+.nf-test.log
+.nft-*.log
+
+# R artifacts
+*.Rhistory
+.RData
+*.Rproj.user/
+.Rproj.user
+
+# macOS
 .DS_Store
+.AppleDouble
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
 testing/
 testing*
 *.pyc
-null/

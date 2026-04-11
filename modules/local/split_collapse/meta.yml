@@ -1,0 +1,33 @@
+name: split_collapse
+description: Optionally remove SNP-associated and cross-hybridising probes, then produce two beta matrices — one uncollapsed for DMR analysis and one with EPICv2 positional replicates collapsed for DMP analysis.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - snp filtering
+  - cross-hybridisation
+  - EPICv2
+  - DMRcate
+input:
+  - - name: beta3_rds
+      type: file
+      description: Probe-filtered beta-value matrix serialised as RDS.
+      pattern: "beta3.rds"
+output:
+  - - name: beta_dmr_rds
+      type: file
+      description: Beta matrix retaining positional replicates for DMR analysis, serialised as RDS.
+      pattern: "beta_for_DMR_uncollapsed.rds"
+  - - name: beta_clean_rds
+      type: file
+      description: Beta matrix with SNP/cross-hyb probes removed and positional replicates collapsed for DMP analysis, serialised as RDS.
+      pattern: "beta_clean.rds"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

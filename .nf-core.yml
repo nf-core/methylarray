@@ -6,16 +6,12 @@ lint:
   files_unchanged:
     - .github/CONTRIBUTING.md
     - assets/sendmail_template.txt
-  nextflow_config: false
+    - .gitignore
   multiqc_config: false
   files_exist:
     - conf/igenomes.config
     - conf/igenomes_ignored.config
-    - nextflow_schema.json
     - assets/multiqc_config.yml
-  schema_lint: false
-  schema_params: false
-  schema_description: false
 
 template:
   org: nf-core
@@ -33,6 +29,5 @@ template:
     - igenomes
     - multiqc
     - fastqc
-    - nf_schema
     - gpu
   is_nfcore: true

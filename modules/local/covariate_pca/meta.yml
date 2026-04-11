@@ -1,0 +1,41 @@
+name: covariate_pca
+description: Perform PCA on the beta-value matrix and test associations between principal components and sample covariates. Optionally run ChAMP SVD analysis.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - PCA
+  - covariate
+  - batch effects
+  - ChAMP
+input:
+  - - name: bvals_aligned_rds
+      type: file
+      description: Aligned beta-value matrix serialised as RDS.
+      pattern: "bVals_aligned.rds"
+  - - name: meta_aligned_csv
+      type: file
+      description: Aligned sample metadata CSV.
+      pattern: "meta_aligned.csv"
+output:
+  - - name: pc_association_csv
+      type: file
+      description: CSV of -log10(p) values for associations between PCs and covariates.
+      pattern: "covariates_PC_association_minuslog10p.csv"
+  - - name: covariate_checks_txt
+      type: file
+      description: Plain-text report of covariate checks performed before model fitting.
+      pattern: "covariate_checks.txt"
+  - - name: champ_svd_dir
+      type: directory
+      description: Directory containing ChAMP SVD analysis results and plots (optional; only produced when run_champ_svd is true).
+      pattern: "ChAMP_SVD"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

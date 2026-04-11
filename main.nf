@@ -31,6 +31,8 @@ workflow NFCORE_METHYLARRAY {
 
     take:
     samplesheet // channel: samplesheet read in from --input
+    ch_idatdir  // channel: path to IDAT directory (--idat_dir)
+    ch_meta     // channel: path to metadata CSV (--meta_file)
 
     main:
 
@@ -38,7 +40,9 @@ workflow NFCORE_METHYLARRAY {
     // WORKFLOW: Run pipeline
     //
     METHYLARRAY (
-        samplesheet
+        samplesheet,
+        ch_idatdir,
+        ch_meta
     )
 }
 /*
@@ -66,7 +70,9 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     NFCORE_METHYLARRAY (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.idatdir,
+        PIPELINE_INITIALISATION.out.meta
     )
     //
     // SUBWORKFLOW: Run completion tasks
