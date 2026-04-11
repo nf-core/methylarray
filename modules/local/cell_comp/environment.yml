@@ -1,0 +1,10 @@
+name: nf-core-methylarray
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconductor-minfi=1.48.0
+  - bioconductor-flowsorted.blood.epic=2.4.0
+  - r-readr=2.1.5
+  - r-optparse=1.7.5
+  - r-base=4.4.0

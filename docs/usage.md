@@ -6,57 +6,87 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+nf-core/methylarray processes Illumina EPICv2 DNA methylation array data starting from raw IDAT files. It requires three inputs: a sample sheet (TSV), a directory of IDAT files, and a metadata CSV with sample phenotype or clinical information. This page describes how to prepare those inputs and how to run the pipeline.
 
-## Samplesheet input
+## Samplesheet input (`--input`)
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+The sample sheet must be a **tab-separated** file (`.tsv`) with a header row and exactly three columns. Each row describes one sample.
 
 ```bash
---input '[path to samplesheet file]'
+--input '[path to samplesheet.tsv]'
 ```
 
-Below is an example for the samplesheet with 5 samples without experimental group assignment.
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-sample_id,idat_red,idat_green
-GSM1075838,/data/GSM1075838_6929689021_R01C01_Red.idat.gz,/data/GSM1075838_6929689021_R01C01_Grn.idat.gz
-GSM1075839,/data/GSM1075839_6929689021_R02C01_Red.idat.gz,/data/GSM1075839_6929689021_R02C01_Grn.idat.gz
-GSM1075840,/data/GSM1075840_6929689021_R03C01_Red.idat.gz,/data/GSM1075840_6929689021_R03C01_Grn.idat.gz
-GSM1075841,/data/GSM1075841_6929689021_R04C01_Red.idat.gz,/data/GSM1075841_6929689021_R04C01_Grn.idat.gz
-GSM1075842,/data/GSM1075842_6929689021_R05C01_Red.idat.gz,/data/GSM1075842_6929689021_R05C01_Grn.idat.gz
+```tsv title="samplesheet.tsv"
+Sample_Name	Sentrix_ID	Sentrix_Position
+SAMPLE_001	207842290093	R01C01
+SAMPLE_002	207842290093	R01C02
+SAMPLE_003	207842290094	R01C01
 ```
 
-### Full samplesheet
+| Column | Description |
+| --- | --- |
+| `Sample_Name` | Unique sample identifier. Must match the `sample_id` column in the metadata CSV. |
+| `Sentrix_ID` | Illumina array barcode (e.g. `207842290093`). Together with `Sentrix_Position` this identifies the IDAT file pair. |
+| `Sentrix_Position` | Array section identifier in the format `RxxCxx` (e.g. `R01C01`). |
 
-The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below. In addition to the minimal samplesheet mentioned above, you can also supply `group` column to run DMP or DMR detection without phenotypes.
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-sample_id,idat_red,idat_green,group
-GSM1075838,/data/GSM1075838_6929689021_R01C01_Red.idat.gz,/data/GSM1075838_6929689021_R01C01_Grn.idat.gz,MS
-GSM1075839,/data/GSM1075839_6929689021_R02C01_Red.idat.gz,/data/GSM1075839_6929689021_R02C01_Grn.idat.gz,MS
-GSM1075840,/data/GSM1075840_6929689021_R03C01_Red.idat.gz,/data/GSM1075840_6929689021_R03C01_Grn.idat.gz,MS
-GSM1075841,/data/GSM1075841_6929689021_R04C01_Red.idat.gz,/data/GSM1075841_6929689021_R04C01_Grn.idat.gz,NORMAL
-GSM1075842,/data/GSM1075842_6929689021_R05C01_Red.idat.gz,/data/GSM1075842_6929689021_R05C01_Grn.idat.gz,NORMAL
-```
-
-| Column       | Description                                                                                                               |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `sample_id`  | Custom sample name.                                                                                                       |
-| `idat_red`   | Full path to the red IDAT file for Illumina microarrays. May be gzipped (`_Red.idat.gz`) or uncompressed (`_Red.idat`).   |
-| `idat_green` | Full path to the green IDAT file for Illumina microarrays. May be gzipped (`_Grn.idat.gz`) or uncompressed (`_Grn.idat`). |
-| `group`      | (Optional) - used for DMP/DMR detection.                                                                                  |
+The pipeline locates IDAT files by concatenating `Sentrix_ID` and `Sentrix_Position` (e.g. `207842290093_R01C01_Grn.idat` and `207842290093_R01C01_Red.idat`). Files may reside in subdirectories within `--idat_dir`.
 
 An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+
+## IDAT directory (`--idat_dir`)
+
+Point this parameter to the directory containing your raw IDAT files. Subdirectories are searched recursively.
+
+```bash
+--idat_dir '[path to directory containing IDAT files]'
+```
+
+Each sample requires a green-channel (`*_Grn.idat`) and a red-channel (`*_Red.idat`) file. Files are matched to samplesheet rows using the `Sentrix_ID_Sentrix_Position` prefix.
+
+## Metadata file (`--meta_file`)
+
+A **comma-separated** (CSV) or tab-separated file providing sample-level phenotype and clinical information. The file must include a header row. The `sample_id` column must match the `Sample_Name` values in the samplesheet — only samples present in both files will be carried forward into differential methylation analysis.
+
+```bash
+--meta_file '[path to metadata.csv]'
+```
+
+### Required columns
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `sample_id` | string | Must match `Sample_Name` in the samplesheet exactly. |
+| `group` | string | Categorical group variable used as the primary factor in DMP/DMR models. The level `"CONTROL"` is used as the reference level for all pairwise contrasts. |
+| `sex` | string | Reported biological sex (e.g. `"M"` / `"F"`). Used to validate predicted sex from methylation data. |
+
+### Optional columns
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `age` | numeric | Sample age. If present, included as a covariate in DMP/DMR linear models. |
+| `bmi` | numeric | Body mass index. If present, included as a covariate in DMP/DMR linear models. |
+| `Plate` | string | Batch identifier (e.g. hybridization plate). Used for ComBat batch correction when the `DMP_limma__combat` and `DMR_DMRcate_EPICv2__combat` analysis modes are run. |
+| `CD8T` | numeric | Estimated CD8+ T cell proportion (from cell composition step or user-supplied). |
+| `CD4T` | numeric | Estimated CD4+ T cell proportion. |
+| `NK` | numeric | Estimated NK cell proportion. |
+| `Bcell` | numeric | Estimated B cell proportion. |
+| `Mono` | numeric | Estimated monocyte proportion. |
+| `Neu` | numeric | Estimated neutrophil proportion. |
+| `Gran` | numeric | Estimated granulocyte proportion. |
+
+Cell composition columns are appended automatically when `--do_estimate_cellcomp true` (the default). If you pre-estimated cell proportions, you can supply them directly in the metadata CSV and disable estimation with `--do_estimate_cellcomp false`.
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/methylarray --input ./samplesheet.csv --outdir ./results --bs_genome_version hg38 -profile docker
+nextflow run nf-core/methylarray \
+   --input ./samplesheet.tsv \
+   --idat_dir ./idat_files/ \
+   --meta_file ./metadata.csv \
+   --outdir ./results \
+   -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -88,7 +118,6 @@ with:
 ```yaml title="params.yaml"
 input: './samplesheet.csv'
 outdir: './results/'
-bs_genome_version: 'hg38'
 <...>
 ```
 
@@ -108,7 +137,7 @@ It is a good idea to specify the pipeline version when running the pipeline on y
 
 First, go to the [nf-core/methylarray releases page](https://github.com/nf-core/methylarray/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`). Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
-This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
+This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future.
 
 To further assist in reproducibility, you can use share and reuse [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 

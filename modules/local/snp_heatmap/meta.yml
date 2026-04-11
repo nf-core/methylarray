@@ -1,0 +1,29 @@
+name: snp_heatmap
+description: Generate a heatmap of SNP probe correlations to visualise sample identity and detect potential sample swaps or duplicates.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - snp
+  - heatmap
+  - identity
+  - minfi
+input:
+  - - name: rg_rds
+      type: file
+      description: Filtered RGChannelSet object serialised as RDS.
+      pattern: "*.rds"
+output:
+  - - name: snp_heatmap_plot
+      type: file
+      description: PNG heatmap of pairwise SNP probe correlations (optional; may not be produced if too few SNP probes are available).
+      pattern: "05_heatmap_snp_correlation.png"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

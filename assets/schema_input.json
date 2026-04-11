@@ -1,37 +1,36 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/methylarray/master/assets/schema_input.json",
+    "$id": "https://raw.githubusercontent.com/nf-core/methylarray/main/assets/schema_input.json",
     "title": "nf-core/methylarray pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",
+    "mimetype": "text/tab-separated-values",
     "items": {
         "type": "object",
         "properties": {
-            "sample_id": {
+            "Sample_Name": {
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "Sample name must be provided and cannot contain spaces",
                 "meta": ["id"]
             },
-            "idat_red": {
+            "sample_id": {
                 "type": "string",
-                "format": "file-path",
-                "exists": true,
-                "pattern": "^\\S+\\.idat\\.gz$",
-                "errorMessage": "IDAT file for red channel must be provided, cannot contain spaces and must have extension '.idat.gz'"
+                "pattern": "^\\S+$",
+                "errorMessage": "sample_id cannot contain spaces",
+                "description": "Optional identifier used to join with the --meta_file metadata CSV (must match the sample_id column). If omitted, Sample_Name is used as the join key."
             },
-            "idat_green": {
+            "Sentrix_ID": {
                 "type": "string",
-                "format": "file-path",
-                "exists": true,
-                "pattern": "^\\S+\\.idat\\.gz$",
-                "errorMessage": "IDAT file for green channel must be provided, cannot contain spaces and must have extension '.idat.gz'"
+                "pattern": "^\\S+$",
+                "errorMessage": "Sentrix array ID must be provided and cannot contain spaces"
             },
-            "group": {
+            "Sentrix_Position": {
                 "type": "string",
-                "meta": ["group"]
+                "pattern": "^R[0-9]{2}C[0-9]{2}$",
+                "errorMessage": "Sentrix position must be provided in format R##C## (e.g. R01C01)"
             }
         },
-        "required": ["sample_id", "idat_red", "idat_green"]
+        "required": ["Sample_Name", "Sentrix_ID", "Sentrix_Position"]
     }
 }

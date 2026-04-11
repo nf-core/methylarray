@@ -1,0 +1,21 @@
+nextflow_process {
+
+    name "Test LOG_VERSIONS"
+    script "../main.nf"
+    process "LOG_VERSIONS"
+    tag "modules"
+    tag "modules_local"
+    tag "log_versions"
+
+    test("stub") {
+
+        options "-stub"
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

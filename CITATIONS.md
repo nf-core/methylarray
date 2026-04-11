@@ -10,13 +10,42 @@
 
 ## Pipeline tools
 
-- [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+- [minfi](https://pubmed.ncbi.nlm.nih.gov/24478339/)
 
-> Andrews, S. (2010). FastQC: A Quality Control Tool for High Throughput Sequence Data [Online].
+  > Aryee MJ, Jaffe AE, Corrada-Bravo H, Ladd-Acosta C, Feinberg AP, Hansen KD, Irizarry RA. Minfi: a flexible and comprehensive Bioconductor package for the analysis of Infinium DNA methylation microarrays. Bioinformatics. 2014 May 15;30(10):1363-9. doi: 10.1093/bioinformatics/btu049. PubMed PMID: 24478339; PubMed Central PMCID: PMC4016708.
 
-- [MultiQC](https://pubmed.ncbi.nlm.nih.gov/27312411/)
+- [SeSAMe](https://pubmed.ncbi.nlm.nih.gov/30085087/)
 
-> Ewels P, Magnusson M, Lundin S, Käller M. MultiQC: summarize analysis results for multiple tools and samples in a single report. Bioinformatics. 2016 Oct 1;32(19):3047-8. doi: 10.1093/bioinformatics/btw354. Epub 2016 Jun 16. PubMed PMID: 27312411; PubMed Central PMCID: PMC5039924.
+  > Zhou W, Triche TJ Jr, Laird PW, Shen H. SeSAMe: reducing artifactual detection of DNA methylation by Infinium BeadChips in genomic deletions. Nucleic Acids Res. 2018 Nov 2;46(20):e123. doi: 10.1093/nar/gky691. PubMed PMID: 30085087; PubMed Central PMCID: PMC6237782.
+
+- [limma](https://pubmed.ncbi.nlm.nih.gov/25605792/)
+
+  > Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK. limma powers differential expression analyses for RNA-sequencing and microarray studies. Nucleic Acids Res. 2015 Apr 20;43(7):e47. doi: 10.1093/nar/gkv007. PubMed PMID: 25605792; PubMed Central PMCID: PMC4402510.
+
+- [DMRcate](https://pubmed.ncbi.nlm.nih.gov/25972926/)
+
+  > Peters TJ, Buckley MJ, Statham AL, Pidsley R, Samaras K, R VL, Clark SJ, Molloy PL. De novo identification of differentially methylated regions in the human genome. Epigenetics Chromatin. 2015 Jan 27;8:6. doi: 10.1186/1756-8935-8-6. PubMed PMID: 25972926; PubMed Central PMCID: PMC4429486.
+
+- [ChAMP](https://pubmed.ncbi.nlm.nih.gov/28961746/)
+
+  > Tian Y, Morris TJ, Webster AP, Yang Z, Beck S, Feber A, Teschendorff AE. ChAMP: updated methylation analysis pipeline for Illumina BeadChips. Bioinformatics. 2017 Dec 15;33(24):3982-3984. doi: 10.1093/bioinformatics/btx513. PubMed PMID: 28961746; PubMed Central PMCID: PMC5860111.
+
+- [FlowSorted.Blood.EPIC](https://pubmed.ncbi.nlm.nih.gov/35115528/)
+
+  > Salas LA, Zhang Z, Koestler DC, Butler RA, Hansen KD, Molinaro AM, Wiencke JK, Kelsey KT, Christensen BC. Enhanced cell deconvolution of peripheral blood using DNA methylation for high-resolution immune profiling. Nat Commun. 2022 Feb 3;13(1):761. doi: 10.1038/s41467-021-27864-7. PubMed PMID: 35115528; PubMed Central PMCID: PMC8814013.
+
+- [Houseman deconvolution](https://pubmed.ncbi.nlm.nih.gov/22568884/)
+
+  > Houseman EA, Accomando WP, Koestler DC, Christensen BC, Marsit CJ, Nelson HH, Wiencke JK, Kelsey KT. DNA methylation arrays as surrogate measures of cell mixture distribution. BMC Bioinformatics. 2012 Mar 28;13:86. doi: 10.1186/1471-2105-13-86. PubMed PMID: 22568884; PubMed Central PMCID: PMC3532182.
+
+- [ComBat / sva](https://pubmed.ncbi.nlm.nih.gov/16632515/)
+
+  > Johnson WE, Li C, Rabinovic A. Adjusting batch effects in microarray expression data using empirical Bayes methods. Biostatistics. 2007 Jan;8(1):118-27. doi: 10.1093/biostatistics/kxj037. PubMed PMID: 16632515.
+
+- [R](https://www.R-project.org/)
+
+  > R Core Team (2024). R: A Language and Environment for Statistical Computing. R Foundation for Statistical Computing, Vienna, Austria.
+
 
 ## Software packaging/containerisation tools
 

@@ -1,0 +1,9 @@
+name: nf-core-methylarray
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconductor-minfi=1.48.0
+  - r-ggplot2=3.5.1
+  - r-optparse=1.7.5
+  - r-base=4.4.0

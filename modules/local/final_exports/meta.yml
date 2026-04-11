@@ -1,0 +1,52 @@
+name: final_exports
+description: Convert the cleaned beta matrix to M-values and export both matrices as RDS files, with optional CSV export and QC summary.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - export
+  - beta values
+  - m-values
+input:
+  - - name: beta_clean_rds
+      type: file
+      description: Cleaned and collapsed beta-value matrix serialised as RDS.
+      pattern: "beta_clean.rds"
+output:
+  - - name: bvals_rds
+      type: file
+      description: Final beta-value matrix serialised as RDS.
+      pattern: "bVals_final.rds"
+  - - name: mvals_rds
+      type: file
+      description: Final M-value matrix serialised as RDS.
+      pattern: "mVals_final.rds"
+  - - name: samples_final_csv
+      type: file
+      description: CSV listing samples retained in the final matrices.
+      pattern: "samples_final.csv"
+  - - name: probes_final_csv
+      type: file
+      description: CSV listing probes retained in the final matrices.
+      pattern: "probes_final.csv"
+  - - name: qc_summary_txt
+      type: file
+      description: Plain-text QC summary (optional).
+      pattern: "qc_summary.txt"
+  - - name: bvals_csv
+      type: file
+      description: Final beta-value matrix as CSV (optional; only produced when export_csv_matrices is true).
+      pattern: "bVals_final.csv"
+  - - name: mvals_csv
+      type: file
+      description: Final M-value matrix as CSV (optional; only produced when export_csv_matrices is true).
+      pattern: "mVals_final.csv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

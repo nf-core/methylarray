@@ -1,0 +1,29 @@
+name: cell_comp
+description: Estimate blood cell composition (CD8T, CD4T, NK, Bcell, Mono, Neu, Gran) from EPIC array data using the FlowSorted.Blood.EPIC reference panel via minfi.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - cell composition
+  - deconvolution
+  - blood
+  - minfi
+input:
+  - - name: rg_rds
+      type: file
+      description: Filtered RGChannelSet object serialised as RDS.
+      pattern: "*.rds"
+output:
+  - - name: cell_counts_csv
+      type: file
+      description: CSV table of estimated cell-type proportions per sample.
+      pattern: "cell_counts_blood.csv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

@@ -18,19 +18,6 @@
 include { METHYLARRAY  } from './workflows/methylarray'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_methylarray_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_methylarray_pipeline'
-include { getGenomeAttribute      } from './subworkflows/local/utils_nfcore_methylarray_pipeline'
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    GENOME PARAMETER VALUES
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-// TODO nf-core: Remove this line if you don't need a FASTA file
-//   This is an example of how to use getGenomeAttribute() to fetch parameters
-//   from igenomes.config using `--genome`
-params.fasta = getGenomeAttribute('fasta')
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -44,6 +31,8 @@ workflow NFCORE_METHYLARRAY {
 
     take:
     samplesheet // channel: samplesheet read in from --input
+    ch_idatdir  // channel: path to IDAT directory (--idat_dir)
+    ch_meta     // channel: path to metadata CSV (--meta_file)
 
     main:
 
@@ -51,10 +40,10 @@ workflow NFCORE_METHYLARRAY {
     // WORKFLOW: Run pipeline
     //
     METHYLARRAY (
-        samplesheet
+        samplesheet,
+        ch_idatdir,
+        ch_meta
     )
-    emit:
-    multiqc_report = METHYLARRAY.out.multiqc_report // channel: /path/to/multiqc_report.html
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,17 +63,16 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        params.input,
-        params.help,
-        params.help_full,
-        params.show_hidden
+        params.input
     )
 
     //
     // WORKFLOW: Run main workflow
     //
     NFCORE_METHYLARRAY (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.idatdir,
+        PIPELINE_INITIALISATION.out.meta
     )
     //
     // SUBWORKFLOW: Run completion tasks
@@ -96,7 +84,6 @@ workflow {
         params.outdir,
         params.monochrome_logs,
         params.hook_url,
-        NFCORE_METHYLARRAY.out.multiqc_report
     )
 }
 

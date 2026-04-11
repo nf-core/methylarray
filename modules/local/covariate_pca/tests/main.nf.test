@@ -1,0 +1,30 @@
+nextflow_process {
+
+    name "Test COVARIATE_PCA"
+    script "../main.nf"
+    process "COVARIATE_PCA"
+    tag "modules"
+    tag "modules_local"
+    tag "covariate_pca"
+
+    test("stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = file("stub_bvals_aligned.rds")
+                input[1] = file("stub_meta_aligned.csv")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}
