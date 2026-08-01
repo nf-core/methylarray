@@ -1,0 +1,101 @@
+nextflow_workflow {
+
+    name "Test Workflow PIPELINE_INITIALISATION"
+    script "../main.nf"
+    workflow "PIPELINE_INITIALISATION"
+    tag "subworkflows"
+    tag "subworkflows_local"
+    tag "utils_nfcore_methylarray_pipeline"
+
+    test("Should succeed when all required params are provided") {
+
+        when {
+            params {
+                validate_params = false
+                monochrome_logs = true
+                idat_dir        = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_idat"
+                meta_file       = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_meta.csv"
+                keep_groups     = "CONTROL,CASE"
+            }
+            workflow {
+                """
+                input[0] = false
+                input[1] = false
+                input[2] = true
+                input[3] = []
+                input[4] = "$outputDir"
+                input[5] = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_samplesheet.tsv"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.samplesheet },
+                { assert workflow.out.idatdir },
+                { assert workflow.out.meta }
+            )
+        }
+    }
+
+    test("Should fail when --idat_dir is missing") {
+
+        when {
+            params {
+                validate_params = false
+                monochrome_logs = true
+                idat_dir        = null
+                meta_file       = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_meta.csv"
+                keep_groups     = "CONTROL,CASE"
+            }
+            workflow {
+                """
+                input[0] = false
+                input[1] = false
+                input[2] = true
+                input[3] = []
+                input[4] = "$outputDir"
+                input[5] = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_samplesheet.tsv"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.stdout.join("\n").contains("--idat_dir is required") }
+            )
+        }
+    }
+
+    test("Should fail when --keep_groups has fewer than 2 groups") {
+
+        when {
+            params {
+                validate_params = false
+                monochrome_logs = true
+                idat_dir        = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_idat"
+                meta_file       = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_meta.csv"
+                keep_groups     = "CONTROL"
+            }
+            workflow {
+                """
+                input[0] = false
+                input[1] = false
+                input[2] = true
+                input[3] = []
+                input[4] = "$outputDir"
+                input[5] = "${projectDir}/subworkflows/local/utils_nfcore_methylarray_pipeline/tests/stub_samplesheet.tsv"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.failed },
+                { assert workflow.stdout.join("\n").contains("must contain at least 2 groups") }
+            )
+        }
+    }
+}

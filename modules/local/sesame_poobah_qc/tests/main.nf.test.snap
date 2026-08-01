@@ -1,0 +1,61 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "beta_norm.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "rg_filtered.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "targets_filtered.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "3": [
+                    "02_hist_failrate_per_sample_masking.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "4": [
+                    "masking_failrate_per_sample.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "5": [
+                    "masking_failrate_per_probe.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "6": [
+                    "dropped_samples.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "7": [
+                    "versions.yml:md5,78b5d9d3242cc371c8ab4b0d0fb124ba"
+                ],
+                "beta_norm_rds": [
+                    "beta_norm.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "dropped_samples_csv": [
+                    "dropped_samples.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "failrate_per_probe_csv": [
+                    "masking_failrate_per_probe.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "failrate_per_sample_csv": [
+                    "masking_failrate_per_sample.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "failrate_plot": [
+                    "02_hist_failrate_per_sample_masking.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "rg_filt_rds": [
+                    "rg_filtered.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "targets_filt_tsv": [
+                    "targets_filtered.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,78b5d9d3242cc371c8ab4b0d0fb124ba"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:53.979659",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

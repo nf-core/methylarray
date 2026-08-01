@@ -1,0 +1,61 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "bVals_final.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "mVals_final.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "samples_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "3": [
+                    "probes_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "4": [
+                    "qc_summary.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "5": [
+                    "bVals_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "6": [
+                    "mVals_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "7": [
+                    "versions.yml:md5,aca95baabc6ceb31f54f93f37cc71f09"
+                ],
+                "bvals_csv": [
+                    "bVals_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "bvals_rds": [
+                    "bVals_final.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "mvals_csv": [
+                    "mVals_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "mvals_rds": [
+                    "mVals_final.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "probes_csv": [
+                    "probes_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "qc_summary_txt": [
+                    "qc_summary.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "samples_csv": [
+                    "samples_final.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,aca95baabc6ceb31f54f93f37cc71f09"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:38.164805",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

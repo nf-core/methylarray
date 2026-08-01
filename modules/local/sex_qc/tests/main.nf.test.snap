@@ -1,0 +1,37 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "qc_predicted_sex.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "08_plotSex_predicted.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "sex_discordant_samples.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "3": [
+                    "versions.yml:md5,f390719012972393a445b554a339dfa5"
+                ],
+                "qc_pred_sex_csv": [
+                    "qc_predicted_sex.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "sex_discordant_csv": [
+                    "sex_discordant_samples.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "sex_plot": [
+                    "08_plotSex_predicted.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,f390719012972393a445b554a339dfa5"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:57.116228",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

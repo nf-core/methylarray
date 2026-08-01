@@ -54,6 +54,11 @@ workflow NFCORE_METHYLARRAY {
 workflow {
 
     main:
+    // Warn user about large CSV exports
+    if (params.export_csv_matrices) {
+        log.warn "WARNING: --export_csv_matrices is enabled — bVals/mVals CSV exports may exceed 5 GB per matrix."
+    }
+
     //
     // SUBWORKFLOW: Run initialisation tasks
     //

@@ -1,0 +1,73 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    
+                ],
+                "5": [
+                    
+                ],
+                "6": [
+                    
+                ],
+                "7": [
+                    
+                ],
+                "8": [
+                    
+                ],
+                "9": [
+                    
+                ],
+                "cometh_combat_dir": [
+                    
+                ],
+                "cometh_norm_dir": [
+                    
+                ],
+                "cometh_plate_dir": [
+                    
+                ],
+                "consensus_combat_dir": [
+                    
+                ],
+                "consensus_norm_dir": [
+                    
+                ],
+                "consensus_plate_dir": [
+                    
+                ],
+                "dmr_combat_dir": [
+                    
+                ],
+                "dmr_norm_dir": [
+                    
+                ],
+                "dmr_plate_dir": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:31.736587",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

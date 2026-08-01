@@ -1,0 +1,37 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "champ_svd_dir": [
+                    
+                ],
+                "covariate_checks_txt": [
+                    
+                ],
+                "pc_association_csv": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:22.360866",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}
