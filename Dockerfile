@@ -1,6 +1,6 @@
 # nf-core/methylarray — Docker image
 # Base: Bioconductor 3.19 (R 4.4)
-# Packages: minfi, sesame, sesameData, limma, DMRcate, FlowSorted.Blood.EPIC, ChAMP
+# Packages: minfi, sesame, sesameData, limma, DMRcate, FlowSorted.Blood.EPIC, ChAMP, coMethDMR
 
 FROM bioconductor/bioconductor_docker:RELEASE_3_19
 
@@ -44,6 +44,14 @@ RUN R -e " \
     BiocManager::install(pkgs, ask = FALSE, update = FALSE); \
     "
 
+# coMethDMR is used by DMR_DMRCATE when --run-cometh is enabled (default: true).
+# Installed as its own layer so it doesn't invalidate the cache of the package
+# block above when new dependencies are added here in the future.
+RUN R -e " \
+    options(repos = BiocManager::repositories()); \
+    BiocManager::install('coMethDMR', ask = FALSE, update = FALSE); \
+    "
+
 # Verify key packages load correctly
 RUN R -e " \
     library(minfi); \
@@ -56,5 +64,13 @@ RUN R -e " \
 # Set standard nf-core R environment variables
 ENV R_PROFILE_USER="/.Rprofile"
 ENV R_ENVIRON_USER="/.Renviron"
+
+# Nextflow's docker profile runs the container as the host UID/GID
+# (docker.runOptions = '-u $(id -u):$(id -g)'), which has no matching user
+# entry in the image. Without a writable $HOME, ExperimentHub/AnnotationHub/
+# sesameData fail to create their cache directory ("Permission denied").
+# A world-writable HOME keeps this working for any UID.
+ENV HOME=/home/methylarray
+RUN mkdir -p /home/methylarray && chmod 777 /home/methylarray
 
 CMD ["R"]
