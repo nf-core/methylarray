@@ -1,0 +1,7 @@
+name: nf-core-methylarray
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - r-optparse=1.7.5
+  - r-base=4.4.0

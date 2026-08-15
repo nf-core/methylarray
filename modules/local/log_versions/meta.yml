@@ -1,0 +1,26 @@
+name: log_versions
+description: Log all R package versions and the full session info to CSV and text files for reproducibility tracking.
+keywords:
+  - methylation
+  - epigenetics
+  - versions
+  - reproducibility
+input: []
+output:
+  - - name: package_versions_csv
+      type: file
+      description: CSV listing each installed R package and its version.
+      pattern: "package_versions.csv"
+  - - name: session_info_txt
+      type: file
+      description: Full R sessionInfo() output as plain text.
+      pattern: "sessionInfo.txt"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

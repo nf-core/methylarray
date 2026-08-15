@@ -1,0 +1,41 @@
+name: qc_report_controls
+description: Generate a minfi QC report PDF and control probe strip plots (bisulphite conversion efficiency) from the filtered RGChannelSet.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - qc
+  - controls
+  - bisulfite
+  - minfi
+input:
+  - - name: rg_rds
+      type: file
+      description: Filtered RGChannelSet object serialised as RDS.
+      pattern: "*.rds"
+output:
+  - - name: qc_report_pdf
+      type: file
+      description: minfi QC report PDF (optional; may not be produced for very small datasets).
+      pattern: "00_qcReport.pdf"
+  - - name: control_strip_plots
+      type: file
+      description: PNG strip chart(s) of control probe signals (optional).
+      pattern: "00_controlStrip_*.png"
+  - - name: bisulfite_i_plot
+      type: file
+      description: PNG plot of Type I bisulphite conversion control probes (optional).
+      pattern: "03_control_bisulfite_I.png"
+  - - name: bisulfite_ii_plot
+      type: file
+      description: PNG plot of Type II bisulphite conversion control probes (optional).
+      pattern: "04_control_bisulfite_II.png"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

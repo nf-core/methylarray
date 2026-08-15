@@ -1,0 +1,31 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "beta_for_DMR_uncollapsed.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "beta_clean.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "versions.yml:md5,94e07c15867de1949a88b08b4eb19bbb"
+                ],
+                "beta_clean_rds": [
+                    "beta_clean.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "beta_dmr_rds": [
+                    "beta_for_DMR_uncollapsed.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,94e07c15867de1949a88b08b4eb19bbb"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:59:03.39307",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

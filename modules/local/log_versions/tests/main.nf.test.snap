@@ -1,0 +1,31 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "package_versions.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "sessionInfo.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "versions.yml:md5,1bb4feba0d8f65af1501d1eab464643a"
+                ],
+                "package_versions_csv": [
+                    "package_versions.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "session_info_txt": [
+                    "sessionInfo.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,1bb4feba0d8f65af1501d1eab464643a"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:44.536801",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

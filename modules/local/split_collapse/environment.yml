@@ -1,0 +1,10 @@
+name: nf-core-methylarray
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconductor-dmrcate=2.16.0
+  - bioconductor-sesame=1.18.0
+  - bioconductor-illuminahumanmethylationepicv2anno.20a1.hg38=1.0.0
+  - r-optparse=1.7.5
+  - r-base=4.4.0
