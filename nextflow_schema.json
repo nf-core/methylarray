@@ -200,6 +200,20 @@
                     "help_text": "Provide as a comma-separated string: `--keep_groups 'CONTROL,CASE'`. At least 2 groups are required since DMP/DMR analyses need at least one contrast. The value 'CONTROL' is conventionally used as the reference level. All listed groups must be present in the `group` column of the metadata file.",
                     "fa_icon": "fas fa-users"
                 },
+                "cofactors": {
+                    "type": "string",
+                    "default": "sex,age,bmi",
+                    "description": "Comma-separated list of cofactors to include in the DMP/DMR design matrix.",
+                    "help_text": "Standard names (case-insensitive): `sex`, `age`, `bmi`. Any additional name must match a column header in the metadata CSV. Example: `sex,age,bmi,smoking_status`. Cell composition columns (CD8T, CD4T, etc.) are handled separately via `do_estimate_cellcomp`.",
+                    "fa_icon": "fas fa-list"
+                },
+                "include_array": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include Sentrix Array/chip position as a batch covariate in the design matrix.",
+                    "help_text": "When `true`, adds the sample's Sentrix_Position (Array) alongside Plate as a batch covariate in `ALIGN_META` and the downstream DMP/DMR models. Useful when array position, not just plate, is a suspected source of technical variation.",
+                    "fa_icon": "fas fa-th"
+                },
                 "epicv2_remap": {
                     "type": "boolean",
                     "default": true,
@@ -390,16 +404,6 @@
         }
     ],
     "properties": {
-        "include_array": {
-            "type": "boolean"
-        },
-        "cofactors": {
-            "type": "string",
-            "default": "sex,age,bmi",
-            "description": "Comma-separated list of cofactors to include in the DMP/DMR design matrix.",
-            "help_text": "Standard names (case-insensitive): `sex`, `age`, `bmi`. Any additional name must match a column header in the metadata CSV. Example: `sex,age,bmi,smoking_status`. Cell composition columns (CD8T, CD4T, etc.) are handled separately via `do_estimate_cellcomp`.",
-            "fa_icon": "fas fa-list"
-        },
         "config_profile_name": {
             "type": "string"
         },
