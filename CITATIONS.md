@@ -46,7 +46,6 @@
 
   > R Core Team (2024). R: A Language and Environment for Statistical Computing. R Foundation for Statistical Computing, Vienna, Austria.
 
-
 ## Software packaging/containerisation tools
 
 - [Anaconda](https://anaconda.com)

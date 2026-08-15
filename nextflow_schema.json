@@ -108,7 +108,7 @@
                     "description": "SeSAMe preparation code for preprocessing steps.",
                     "help_text": "A string of single-letter codes controlling SeSAMe's `prepSeSAMe()` preprocessing pipeline. Each letter activates one step in order:\n- `Q` \u2013 Quality masking (pOOBAH detection p-value masking)\n- `C` \u2013 Channel inference (Infinium I/II channel correction)\n- `D` \u2013 Dye bias correction (non-linear dye bias normalisation)\n- `P` \u2013 Poobah p-value masking (applies pOOBAH mask to betas)\n- `B` \u2013 Background correction (NOOB background subtraction)\n\nThe default `QCDPB` is the recommended preset for EPICv2 arrays. See the [SeSAMe documentation](https://www.bioconductor.org/packages/release/bioc/vignettes/sesame/inst/doc/sesame.html) for all available steps.",
                     "fa_icon": "fas fa-cog"
-                },
+                }
             }
         },
         "filtering_options": {

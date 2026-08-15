@@ -126,4 +126,3 @@ workflow PIPELINE_COMPLETION {
         log.error "Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting"
     }
 }
-

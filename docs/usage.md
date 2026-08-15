@@ -23,11 +23,11 @@ SAMPLE_002	207842290093	R01C02
 SAMPLE_003	207842290094	R01C01
 ```
 
-| Column | Description |
-| --- | --- |
-| `Sample_Name` | Unique sample identifier. Must match the `sample_id` column in the metadata CSV. |
-| `Sentrix_ID` | Illumina array barcode (e.g. `207842290093`). Together with `Sentrix_Position` this identifies the IDAT file pair. |
-| `Sentrix_Position` | Array section identifier in the format `RxxCxx` (e.g. `R01C01`). |
+| Column             | Description                                                                                                        |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `Sample_Name`      | Unique sample identifier. Must match the `sample_id` column in the metadata CSV.                                   |
+| `Sentrix_ID`       | Illumina array barcode (e.g. `207842290093`). Together with `Sentrix_Position` this identifies the IDAT file pair. |
+| `Sentrix_Position` | Array section identifier in the format `RxxCxx` (e.g. `R01C01`).                                                   |
 
 The pipeline locates IDAT files by concatenating `Sentrix_ID` and `Sentrix_Position` (e.g. `207842290093_R01C01_Grn.idat` and `207842290093_R01C01_Red.idat`). Files may reside in subdirectories within `--idat_dir`.
 
@@ -53,26 +53,26 @@ A **comma-separated** (CSV) or tab-separated file providing sample-level phenoty
 
 ### Required columns
 
-| Column | Type | Description |
-| --- | --- | --- |
-| `sample_id` | string | Must match `Sample_Name` in the samplesheet exactly. |
-| `group` | string | Categorical group variable used as the primary factor in DMP/DMR models. The level `"CONTROL"` is used as the reference level for all pairwise contrasts. |
-| `sex` | string | Reported biological sex (e.g. `"M"` / `"F"`). Used to validate predicted sex from methylation data. |
+| Column      | Type   | Description                                                                                                                                               |
+| ----------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sample_id` | string | Must match `Sample_Name` in the samplesheet exactly.                                                                                                      |
+| `group`     | string | Categorical group variable used as the primary factor in DMP/DMR models. The level `"CONTROL"` is used as the reference level for all pairwise contrasts. |
+| `sex`       | string | Reported biological sex (e.g. `"M"` / `"F"`). Used to validate predicted sex from methylation data.                                                       |
 
 ### Optional columns
 
-| Column | Type | Description |
-| --- | --- | --- |
-| `age` | numeric | Sample age. If present, included as a covariate in DMP/DMR linear models. |
-| `bmi` | numeric | Body mass index. If present, included as a covariate in DMP/DMR linear models. |
-| `Plate` | string | Batch identifier (e.g. hybridization plate). Used for ComBat batch correction when the `DMP_limma__combat` and `DMR_DMRcate_EPICv2__combat` analysis modes are run. |
-| `CD8T` | numeric | Estimated CD8+ T cell proportion (from cell composition step or user-supplied). |
-| `CD4T` | numeric | Estimated CD4+ T cell proportion. |
-| `NK` | numeric | Estimated NK cell proportion. |
-| `Bcell` | numeric | Estimated B cell proportion. |
-| `Mono` | numeric | Estimated monocyte proportion. |
-| `Neu` | numeric | Estimated neutrophil proportion. |
-| `Gran` | numeric | Estimated granulocyte proportion. |
+| Column  | Type    | Description                                                                                                                                                         |
+| ------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `age`   | numeric | Sample age. If present, included as a covariate in DMP/DMR linear models.                                                                                           |
+| `bmi`   | numeric | Body mass index. If present, included as a covariate in DMP/DMR linear models.                                                                                      |
+| `Plate` | string  | Batch identifier (e.g. hybridization plate). Used for ComBat batch correction when the `DMP_limma__combat` and `DMR_DMRcate_EPICv2__combat` analysis modes are run. |
+| `CD8T`  | numeric | Estimated CD8+ T cell proportion (from cell composition step or user-supplied).                                                                                     |
+| `CD4T`  | numeric | Estimated CD4+ T cell proportion.                                                                                                                                   |
+| `NK`    | numeric | Estimated NK cell proportion.                                                                                                                                       |
+| `Bcell` | numeric | Estimated B cell proportion.                                                                                                                                        |
+| `Mono`  | numeric | Estimated monocyte proportion.                                                                                                                                      |
+| `Neu`   | numeric | Estimated neutrophil proportion.                                                                                                                                    |
+| `Gran`  | numeric | Estimated granulocyte proportion.                                                                                                                                   |
 
 Cell composition columns are appended automatically when `--do_estimate_cellcomp true` (the default). If you pre-estimated cell proportions, you can supply them directly in the metadata CSV and disable estimation with `--do_estimate_cellcomp false`.
 
