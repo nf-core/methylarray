@@ -1,0 +1,25 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "cell_counts_blood.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "versions.yml:md5,0015ca63d3207f50d4940cecaf2f80b8"
+                ],
+                "cell_counts_csv": [
+                    "cell_counts_blood.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,0015ca63d3207f50d4940cecaf2f80b8"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:19.239377",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

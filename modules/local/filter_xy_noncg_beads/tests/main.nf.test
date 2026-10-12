@@ -1,0 +1,30 @@
+nextflow_process {
+
+    name "Test FILTER_XY_NONCG_BEADS"
+    script "../main.nf"
+    process "FILTER_XY_NONCG_BEADS"
+    tag "modules"
+    tag "modules_local"
+    tag "filter_xy_noncg_beads"
+
+    test("stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = file("stub_rg_filtered.rds")
+                input[1] = file("stub_beta_norm.rds")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

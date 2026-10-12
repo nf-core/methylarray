@@ -1,0 +1,45 @@
+name: dmp_limma
+description: Identify differentially methylated positions (DMPs) using limma with up to three model variants — plate in model, ComBat batch correction, and normalisation only.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - DMP
+  - differential methylation
+  - limma
+  - ComBat
+input:
+  - - name: mvals_aligned_rds
+      type: file
+      description: Aligned M-value matrix serialised as RDS.
+      pattern: "mVals_aligned.rds"
+  - - name: bvals_aligned_rds
+      type: file
+      description: Aligned beta-value matrix serialised as RDS (used for reporting).
+      pattern: "bVals_aligned.rds"
+  - - name: meta_aligned_csv
+      type: file
+      description: Aligned sample metadata CSV.
+      pattern: "meta_aligned.csv"
+output:
+  - - name: dmp_plate_dir
+      type: directory
+      description: Directory of DMP results from the plate-in-model limma run (optional; only produced when plate information is available).
+      pattern: "DMP_limma__plate_in_model"
+  - - name: dmp_combat_dir
+      type: directory
+      description: Directory of DMP results from the ComBat-corrected limma run (optional; only produced when plate information is available).
+      pattern: "DMP_limma__combat"
+  - - name: dmp_norm_dir
+      type: directory
+      description: Directory of DMP results from the normalisation-only limma run (always produced).
+      pattern: "DMP_limma__norm_only"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

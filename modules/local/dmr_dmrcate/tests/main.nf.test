@@ -1,0 +1,31 @@
+nextflow_process {
+
+    name "Test DMR_DMRCATE"
+    script "../main.nf"
+    process "DMR_DMRCATE"
+    tag "modules"
+    tag "modules_local"
+    tag "dmr_dmrcate"
+
+    test("stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = file("stub_beta_dmr_uncollapsed.rds")
+                input[1] = file("stub_targets.tsv")
+                input[2] = file("stub_meta_aligned.csv")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

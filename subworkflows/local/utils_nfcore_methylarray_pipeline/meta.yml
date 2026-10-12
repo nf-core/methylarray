@@ -1,0 +1,51 @@
+name: pipeline_initialisation
+description: Subworkflow with utility functions specific to the nf-core/methylarray pipeline (initialisation, completion, email notification).
+keywords:
+  - utils
+  - pipeline
+  - initialisation
+components:
+  - utils_nfcore_pipeline
+  - utils_nextflow_pipeline
+  - completionemail
+  - completionsummary
+  - imnotification
+input:
+  - version:
+      type: boolean
+      description: Display version and exit.
+  - validate_params:
+      type: boolean
+      description: Validate parameters against the schema at runtime.
+  - monochrome_logs:
+      type: boolean
+      description: Do not use coloured log outputs.
+  - nextflow_cli_args:
+      type: list
+      description: List of positional Nextflow CLI arguments.
+  - outdir:
+      type: string
+      description: The output directory where results will be saved.
+  - input:
+      type: string
+      description: Path to input samplesheet TSV.
+output:
+  - samplesheet:
+      type: file
+      description: Validated samplesheet channel.
+      pattern: "*.tsv"
+  - idatdir:
+      type: directory
+      description: IDAT directory channel.
+  - meta:
+      type: file
+      description: Metadata CSV channel.
+      pattern: "*.csv"
+  - versions:
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"

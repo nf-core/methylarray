@@ -1,0 +1,61 @@
+name: sesame_poobah_qc
+description: Run SeSAMe preprocessing (background correction, dye-bias normalisation) and pOOBAH detection p-value QC. Samples and probes exceeding the failure-rate thresholds are removed.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - qc
+  - sesame
+  - poobah
+  - normalization
+input:
+  - - name: rg0_rds
+      type: file
+      description: Raw RGChannelSet object serialised as RDS.
+      pattern: "rg0.rds"
+  - - name: targets_tsv
+      type: file
+      description: Sample targets table TSV from IMPORT_IDAT.
+      pattern: "targets.tsv"
+  - - name: idat_dir
+      type: directory
+      description: Directory containing IDAT files (required by SeSAMe).
+      pattern: "*"
+output:
+  - - name: beta_norm_rds
+      type: file
+      description: Normalised beta-value matrix (probes x samples) serialised as RDS.
+      pattern: "beta_norm.rds"
+  - - name: rg_filt_rds
+      type: file
+      description: Filtered RGChannelSet after sample removal, serialised as RDS.
+      pattern: "rg_filtered.rds"
+  - - name: targets_filt_tsv
+      type: file
+      description: Targets table restricted to samples that passed QC.
+      pattern: "targets_filtered.tsv"
+  - - name: hist_failrate_plot
+      type: file
+      description: PNG histogram of per-sample pOOBAH failure rates.
+      pattern: "02_hist_failrate_per_sample_masking.png"
+  - - name: failrate_sample_csv
+      type: file
+      description: CSV of per-sample pOOBAH failure rates.
+      pattern: "masking_failrate_per_sample.csv"
+  - - name: failrate_probe_csv
+      type: file
+      description: CSV of per-probe pOOBAH failure rates.
+      pattern: "masking_failrate_per_probe.csv"
+  - - name: dropped_samples_csv
+      type: file
+      description: CSV listing samples removed due to high failure rate (optional; absent if no samples are dropped).
+      pattern: "dropped_samples.csv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

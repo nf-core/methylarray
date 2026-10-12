@@ -1,0 +1,30 @@
+nextflow_process {
+
+    name "Test DENSITY_PLOTS"
+    script "../main.nf"
+    process "DENSITY_PLOTS"
+    tag "modules"
+    tag "modules_local"
+    tag "density_plots"
+
+    test("stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = file("stub_rg.rds")
+                input[1] = file("stub_beta_norm.rds")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,36 @@
+name: raw_intensities_qc
+description: Perform raw signal intensity QC on the imported RGChannelSet, flagging samples with low median intensities.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - qc
+  - intensity
+  - minfi
+input:
+  - - name: rg_rds
+      type: file
+      description: RGChannelSet object serialised as RDS.
+      pattern: "*.rds"
+output:
+  - - name: intensity_plot
+      type: file
+      description: PNG histogram of raw median intensities across samples.
+      pattern: "01_plotQC_raw_intensities.png"
+  - - name: qc_raw_tsv
+      type: file
+      description: TSV table of per-sample raw QC metrics (median intensities).
+      pattern: "qc_raw.tsv"
+  - - name: low_intensity_samples_tsv
+      type: file
+      description: TSV listing samples that fall below the intensity threshold (optional; absent if all samples pass).
+      pattern: "low_intensity_samples.tsv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

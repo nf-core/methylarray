@@ -1,0 +1,37 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "dmp_combat_dir": [
+                    
+                ],
+                "dmp_norm_dir": [
+                    
+                ],
+                "dmp_plate_dir": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:28.748375",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

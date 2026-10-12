@@ -1,0 +1,67 @@
+name: align_meta
+description: Align sample metadata (clinical data, cell composition, predicted sex) with the methylation matrices, subset to groups of interest, and optionally export aligned matrices as CSV.
+keywords:
+  - methylation
+  - epigenetics
+  - array
+  - metadata
+  - alignment
+input:
+  - - name: bvals_rds
+      type: file
+      description: Final beta-value matrix serialised as RDS.
+      pattern: "bVals_final.rds"
+  - - name: mvals_rds
+      type: file
+      description: Final M-value matrix serialised as RDS.
+      pattern: "mVals_final.rds"
+  - - name: targets_tsv
+      type: file
+      description: Filtered sample targets table TSV.
+      pattern: "targets_filtered.tsv"
+  - - name: meta_csv
+      type: file
+      description: Sample metadata CSV with clinical/phenotype information.
+      pattern: "*.csv"
+  - - name: cell_counts_csv
+      type: file
+      description: Cell composition CSV from CELL_COMP, or an empty list ([]) when cell composition estimation is disabled (params.do_estimate_cellcomp = false).
+      pattern: "*.csv"
+  - - name: pred_sex_csv
+      type: file
+      description: Predicted sex CSV from SEX_QC.
+      pattern: "qc_predicted_sex.csv"
+output:
+  - - name: meta_aligned_csv
+      type: file
+      description: Aligned metadata CSV matching the samples in the final matrices.
+      pattern: "meta_aligned.csv"
+  - - name: bvals_aligned_rds
+      type: file
+      description: Beta-value matrix subset and aligned to metadata samples, serialised as RDS.
+      pattern: "bVals_aligned.rds"
+  - - name: mvals_aligned_rds
+      type: file
+      description: M-value matrix subset and aligned to metadata samples, serialised as RDS.
+      pattern: "mVals_aligned.rds"
+  - - name: unmapped_colnames_csv
+      type: file
+      description: CSV of beta-value column names that could not be mapped to metadata sample IDs (optional).
+      pattern: "bVals_unmapped_colnames.csv"
+  - - name: bvals_aligned_csv
+      type: file
+      description: Aligned beta-value matrix as CSV (optional; only produced when export_csv_matrices is true).
+      pattern: "bVals_aligned.csv"
+  - - name: mvals_aligned_csv
+      type: file
+      description: Aligned M-value matrix as CSV (optional; only produced when export_csv_matrices is true).
+      pattern: "mVals_aligned.csv"
+  - - name: versions
+      type: file
+      description: File containing software versions.
+      pattern: "versions.yml"
+authors:
+  - "@nf-core"
+maintainers:
+  - "@nf-core"
+args_id: "$args"

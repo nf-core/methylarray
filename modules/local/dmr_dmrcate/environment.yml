@@ -1,0 +1,17 @@
+name: nf-core-methylarray
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - bioconductor-dmrcate=2.16.0
+  - bioconductor-minfi=1.48.0
+  # Optional — install manually if params.run_cometh = true:
+  # - bioconductor-comethodmr
+  # - bioconductor-biocparallel
+  - bioconductor-limma=3.58.0
+  - bioconductor-sva=3.50.0
+  - r-readr=2.1.5
+  - r-ggplot2=3.5.1
+  - r-dplyr=1.1.4
+  - r-optparse=1.7.5
+  - r-base=4.4.0

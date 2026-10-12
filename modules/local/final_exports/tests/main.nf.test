@@ -1,0 +1,29 @@
+nextflow_process {
+
+    name "Test FINAL_EXPORTS"
+    script "../main.nf"
+    process "FINAL_EXPORTS"
+    tag "modules"
+    tag "modules_local"
+    tag "final_exports"
+
+    test("stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = file("stub_beta_clean.rds")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "rg0.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "targets.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "versions.yml:md5,5936d6e60c7b578edb1efd4ede71de30"
+                ],
+                "rg_rds": [
+                    "rg0.rds:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "targets_tsv": [
+                    "targets.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,5936d6e60c7b578edb1efd4ede71de30"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:41.381496",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}

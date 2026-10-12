@@ -1,0 +1,31 @@
+nextflow_process {
+
+    name "Test SESAME_POOBAH_QC"
+    script "../main.nf"
+    process "SESAME_POOBAH_QC"
+    tag "modules"
+    tag "modules_local"
+    tag "sesame_poobah_qc"
+
+    test("stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = file("stub_rg0.rds")
+                input[1] = file("stub_targets.tsv")
+                input[2] = file("stub_idat_dir")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

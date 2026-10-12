@@ -1,0 +1,33 @@
+nextflow_workflow {
+
+    name "Test Workflow METHYLARRAY"
+    script "../methylarray.nf"
+    workflow "METHYLARRAY"
+    tag "workflows"
+    tag "workflows_methylarray"
+
+    test("stub - full DAG wiring") {
+
+        options "-stub"
+
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+            workflow {
+                """
+                input[0] = file("stub_samplesheet.tsv")
+                input[1] = file("stub_idat_dir")
+                input[2] = file("stub_meta.csv")
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert workflow.out.versions }
+            )
+        }
+    }
+}

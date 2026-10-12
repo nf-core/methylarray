@@ -1,0 +1,43 @@
+{
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    "00_qcReport.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "00_controlStrip_stub.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "2": [
+                    "03_control_bisulfite_I.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "3": [
+                    "04_control_bisulfite_II.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "4": [
+                    "versions.yml:md5,090293ee650d869883bbcdca3f8e5c35"
+                ],
+                "bisulfite_i_plot": [
+                    "03_control_bisulfite_I.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "bisulfite_ii_plot": [
+                    "04_control_bisulfite_II.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "control_strip_plots": [
+                    "00_controlStrip_stub.png:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "qc_report_pdf": [
+                    "00_qcReport.pdf:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,090293ee650d869883bbcdca3f8e5c35"
+                ]
+            }
+        ],
+        "timestamp": "2026-08-01T10:58:47.838045",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "25.10.3"
+        }
+    }
+}
